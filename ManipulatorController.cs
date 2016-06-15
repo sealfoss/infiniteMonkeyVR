@@ -12,9 +12,8 @@ public class ManipulatorController : MonoBehaviour {
 	private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip; 
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 
-	private GameObject collidedOb = null;
 	private InteractiveObjectController closestObj = null; 
-	private InteractiveObjectController grabbedObj = null;
+	public InteractiveObjectController grabbedObj = null;
 
 	HashSet<InteractiveObjectController> availableObjects = new HashSet<InteractiveObjectController>();
 
@@ -23,8 +22,7 @@ public class ManipulatorController : MonoBehaviour {
 	}
 
 	void Update () {
-		if (controller == null)
-		{
+		if (controller == null) {
 			Debug.Log("Controller not initialized");
 			return;
 		}
@@ -54,8 +52,8 @@ public class ManipulatorController : MonoBehaviour {
 		grabbedObj.actionStatus = true;
 	}
 
-	void Drop () {
-		grabbedObj.Drop;
+	public void Drop () {
+		grabbedObj.Drop(this);
 		grabbedObj = null;
 	}
 
@@ -65,8 +63,7 @@ public class ManipulatorController : MonoBehaviour {
 		float minDistance = float.MaxValue;
 		float distance;
 
-		foreach (InteractiveObjectController item in availableObjects)
-		{
+		foreach (InteractiveObjectController item in availableObjects) {
 			distance = (item.transform.position - transform.position).sqrMagnitude;
 
 			if (distance < minDistance) {
@@ -76,7 +73,16 @@ public class ManipulatorController : MonoBehaviour {
 		}
 
 		grabbedObj = closestObj;
-		grabbedObj.Grab(this);
+
+        if (grabbedObj.grabbedStatus == false) {
+            grabbedObj.Grab(this);
+        }
+
+        if (grabbedObj.grabbedStatus == true && grabbedObj.attachedManipulator != this) {
+            grabbedObj.Drop(grabbedObj.attachedManipulator);
+            grabbedObj.Grab(this);
+        }
+
 	}
 
 	void OnTriggerEnter (Collider collided) {
