@@ -3,31 +3,33 @@ using System.Collections;
 
 public class SocketTriggerController : MonoBehaviour {
 
-    public SocketController childSocket;
+    public SocketController parentSocket;
+    public string soughtAfter = "BronzeLock_Key";
 	// Use this for initialization
 	void Start () {
-        childSocket = GetComponentInChildren<SocketController>();
+        parentSocket = GetComponentInChildren<SocketController>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if (parentSocket == null) {
+            parentSocket = GetComponentInParent<SocketController>();
+        }
 	}
     void OnTriggerEnter(Collider collided){
-        if (collided.name.Contains("OrientationTriggerFront")){
-            if (collided.GetComponentInParent<InteractiveObjectController>().attachedManipulator) {
-                print("in trigger!");
-                childSocket.plugObj = collided.GetComponentInParent<InteractiveObjectController>();
-                childSocket.socketCollision = true;
+        if (collided.name.Contains("Trigger")){
+            string name = collided.GetComponentInParent<InteractiveObjectController>().name;
+            if (name == "BronzeLock_Key") {
+                parentSocket.plugObj = collided.GetComponentInParent<InteractiveObjectController>();
+                parentSocket.socketCollision = true;
             }
         }
     }
 
     void OnTriggerExit(Collider collided) {
-        if (collided.name.Contains("OrientationTriggerFront")) {
-            print("out trigger!");
-            if (collided.GetComponentInParent<InteractiveObjectController>() == childSocket.plugObj) {
-                childSocket.socketCollision = false;
+        if (collided.name.Contains("Trigger")) {
+            if (collided.GetComponentInParent<InteractiveObjectController>() == parentSocket.plugObj) {
+                parentSocket.socketCollision = false;
             }
         }
 	}

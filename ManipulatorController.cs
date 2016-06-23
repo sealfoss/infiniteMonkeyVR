@@ -12,8 +12,8 @@ public class ManipulatorController : MonoBehaviour {
 	private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip; 
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 
-	private InteractiveObjectController closestObj = null; 
-	public InteractiveObjectController grabbedObj = null;
+	private InteractiveObjectController closestObj = null;
+    public InteractiveObjectController grabbedObj = null;
 
 	HashSet<InteractiveObjectController> availableObjects = new HashSet<InteractiveObjectController>();
 
@@ -26,6 +26,11 @@ public class ManipulatorController : MonoBehaviour {
 			Debug.Log("Controller not initialized");
 			return;
 		}
+
+        if (availableObjects.Count > 0)
+        {
+            Sort();
+        }
 
 		if (controller.GetPressDown(gripButton) && availableObjects.Count != 0 && grabbedObj == null) {
 			Grab();
@@ -57,22 +62,53 @@ public class ManipulatorController : MonoBehaviour {
 		grabbedObj = null;
 	}
 
+    void Sort ()
+    {
+        float minDistance = float.MaxValue;
+        float distance;
+
+        foreach (InteractiveObjectController item in availableObjects)
+        {
+            distance = (item.transform.position - transform.position).sqrMagnitude;
+            
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestObj = item;
+
+                if (closestObj != grabbedObj && grabbedObj == null)
+                {
+                    Highlight(closestObj);
+                }
+            }
+        }
+    }
+
+    void Highlight (InteractiveObjectController colorObj)
+    {
+        //print("Highlighting: " + colorObj.name);
+        Color col = new Color(0.5f, 0.45f, 0);
+        Renderer rend;
+        rend = colorObj.GetComponent<Renderer>();
+        rend.material.EnableKeyword("_EMISSION");
+        rend.material.SetColor("_EmissionColor", col);
+        colorObj.highlightedStatus = true;
+    }
+
+    void DeHighlight (InteractiveObjectController colorObj)
+    {
+        print("DeHighlighting: " + colorObj.name);
+        Renderer rend;
+        rend = colorObj.GetComponent<Renderer>();
+        rend.material.EnableKeyword("_EMISSION");
+        rend.material.SetColor("_EmissionColor", Color.black);
+        colorObj.highlightedStatus = false;
+    }
 
 	void Grab ()
 	{
-		float minDistance = float.MaxValue;
-		float distance;
-
-		foreach (InteractiveObjectController item in availableObjects) {
-			distance = (item.transform.position - transform.position).sqrMagnitude;
-
-			if (distance < minDistance) {
-				minDistance = distance;
-				closestObj = item;
-			}
-		}
-
 		grabbedObj = closestObj;
+        DeHighlight(grabbedObj);
 
         if (grabbedObj.grabbedStatus == false) {
             grabbedObj.Grab(this);
@@ -97,6 +133,7 @@ public class ManipulatorController : MonoBehaviour {
 		InteractiveObjectController collidedObj = collided.GetComponent<InteractiveObjectController> ();
 
 		if (collidedObj) {
+            DeHighlight(collidedObj);
 			availableObjects.Remove (collidedObj);
 		}
 	}

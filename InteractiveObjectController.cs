@@ -2,12 +2,15 @@
 using System.Collections;
 
 public class InteractiveObjectController : MonoBehaviour {
+    private float rbMass;
+    private float rbDrag;
+    private float rbADrag;
 
-	public float velocityFactor = 20000f;
-	public float rotationFactor = 600f;
+    public float velocityFactor = 2000f;
+	public float rotationFactor = 80f;
 	public int maxAV = 20;
-		
-	private Rigidbody rigidBody; 
+
+    private Rigidbody rigidBody; 
 	private Vector3 posDelta;
 	private Quaternion rotDelta;
 	private float angle;
@@ -18,14 +21,19 @@ public class InteractiveObjectController : MonoBehaviour {
 	public bool pluggedStatus = false;
 	public bool actionStatus = false;
 	public bool offsetStatus = false;
+    public bool highlightedStatus = false;
 
 	public ManipulatorController attachedManipulator;
 	public Transform interactionPoint;
+    public Transform compositionPoint;
 	public Transform offsetPoint;
 	public SocketController socketObj;
 
 	void Start () {
-		rigidBody = GetComponent<Rigidbody>();
+        rbMass = GetComponent<Rigidbody>().mass;
+        rbDrag = GetComponent<Rigidbody>().drag;
+        rbADrag = GetComponent<Rigidbody>().angularDrag;
+        rigidBody = GetComponent<Rigidbody>();
 		interactionPoint = new GameObject().transform;
 		velocityFactor /= rigidBody.mass;
 		rotationFactor /= rigidBody.mass;
@@ -33,48 +41,74 @@ public class InteractiveObjectController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-        if (lockedStatus == true) {
-			if (grabbedStatus && actionStatus) {
-				lockedStatus = false;
-			}
+        if (lockedStatus == true)
+        {
+            //transform.position = socketObj.socketOffset.position;
+            //transform.eulerAngles = socketObj.socketOffset.rotation.eulerAngles;
 		}
 
-		if (grabbedStatus == true) {
-			GrabbedMove ();
+        if (lockedStatus == false)
+        {
+            if (grabbedStatus == true)
+            {
+                GrabbedMove();
 
-			if (actionStatus) {
-				Act ();
-			}
-		}
+                if (actionStatus)
+                {
+                    Act();
+                }
+            }
 
-        if (grabbedStatus == false && pluggedStatus == true && lockedStatus == false){
-                socketObj.Unplug();
+            if (grabbedStatus == false && pluggedStatus == true)
+            {
+                socketObj.Unplug(this);
+            }
         }
 	}
 
-	void Act () {
-	}
+    public void Lock()
+    {
+        this.transform.parent = socketObj.transform;
+        Destroy(GetComponent<Rigidbody>());
+        lockedStatus = true;
+    }
+
+    public void Unlock()
+    {
+        gameObject.AddComponent<Rigidbody>();
+        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Rigidbody>().useGravity = false;
+        GetComponent<Rigidbody>().mass = rbMass;
+        GetComponent<Rigidbody>().drag = rbDrag;
+        GetComponent<Rigidbody>().angularDrag = rbADrag;
+        rigidBody = GetComponent<Rigidbody>();
+        this.transform.parent = null;
+        lockedStatus = false;
+    }
+
+	void Act ()
+    {
+
+    }
 
 	public void Drop (ManipulatorController manipulator) {
         if (manipulator == attachedManipulator)
         {
             if (pluggedStatus == true)
             {
-                GetComponent<Rigidbody>().isKinematic = false;
-                GetComponent<Rigidbody>().useGravity = true;
+                socketObj.Unplug(this);
             }
 
             grabbedStatus = false;
             attachedManipulator.grabbedObj = null;
             attachedManipulator = null;
             interactionPoint.SetParent(transform, false);
-            this.transform.parent = null;
         }
 	}
 
 	void PluggedMove () {
-        transform.position = socketObj.transform.position;
-        transform.rotation = socketObj.transform.rotation;
+        transform.position = socketObj.socketOffset.position;
+        transform.eulerAngles = socketObj.socketOffset.rotation.eulerAngles;
     }
 
 	public void Plug () {
@@ -105,6 +139,7 @@ public class InteractiveObjectController : MonoBehaviour {
 
 	void GrabbedMove() {
         if (pluggedStatus == false) {
+
             posDelta = attachedManipulator.transform.position - interactionPoint.position;
             this.rigidBody.velocity = posDelta * velocityFactor * Time.fixedDeltaTime;
 
@@ -116,7 +151,9 @@ public class InteractiveObjectController : MonoBehaviour {
                 angle -= 360;
             }
 
-            this.rigidBody.angularVelocity = (Time.fixedDeltaTime * angle * axis) * rotationFactor;
+            if (angle != 0 && axis != Vector3.zero) {
+                this.rigidBody.angularVelocity = (Time.fixedDeltaTime * angle * axis) * rotationFactor;
+            }
         }
 
         if (pluggedStatus == true) {

@@ -3,24 +3,34 @@ using System.Collections;
 
 public class SocketController : MonoBehaviour {
 
-	private float trackerY;
-	private float lastTrackerY;
-    public float maxPosY;
-    public float minPosY;
-    private float releasePosY;
-	public float socketY;
+    private float trackerPos;
+    public float trackerRot;
+	private float lastTrackerPos;
+    private float lastTrackerRot;
+    public float maxPos;
+    public float minPos;
+    public float maxRot;
+    public float minRot;
+    public float maxDistance;
+    public float dist;
+    public float releasePos;
+	public float socketPos;
+    public float socketRot;
     public bool socketCollision = false;
+
+    public bool moveAxisX = false;
+    public bool moveAxisY = false;
+    public bool moveAxisZ = true;
 
     public TrackerController tracker;
 	public InteractiveObjectController plugObj = null;
     public ManipulatorController manipulator;
     public Transform defaultPosition;
+    public Transform socketOffset;
 
     void Start () {
-        defaultPosition = this.transform;
-        maxPosY = 1.0f;
-        minPosY = 0.3f;
-        releasePosY = maxPosY + 0.4f;
+        socketOffset = new GameObject().transform;
+        socketOffset.parent = this.transform;
     }
 	
 	void FixedUpdate () {
@@ -30,10 +40,54 @@ public class SocketController : MonoBehaviour {
 			}
 
 			if (plugObj.pluggedStatus == true && plugObj.grabbedStatus == true) {
-                PluggedMove ();
+                Track();
+
+                if ((plugObj) && plugObj.lockedStatus == false)
+                {
+                    PluggedMove();
+                }
 			}
 		}
 	}
+    void Track ()
+    {
+        if (moveAxisX)
+        {
+            trackerRot = tracker.transform.localRotation.eulerAngles.x;
+            trackerPos = tracker.transform.localPosition.x;
+        }
+
+        if (moveAxisY)
+        {
+            trackerRot = tracker.transform.localRotation.eulerAngles.y;
+            trackerPos = tracker.transform.localPosition.y;
+        }
+
+        if (moveAxisZ)
+        {
+            trackerRot = tracker.transform.localRotation.eulerAngles.z;
+            trackerPos = tracker.transform.localPosition.z;
+        }
+
+        if (trackerRot > 180) { trackerRot -= 360; }
+        if (trackerRot > maxRot) { trackerRot = maxRot; }
+        if (trackerRot < minRot) { trackerRot = minRot; }
+        socketRot = trackerRot;
+
+        if (trackerPos > lastTrackerPos) { socketPos = socketPos + (trackerPos - lastTrackerPos); }
+        if (trackerPos < lastTrackerPos) { socketPos = socketPos - (lastTrackerPos - trackerPos); }
+        if (socketPos > maxPos) { socketPos = maxPos; }
+        if (socketPos < minPos) { socketPos = minPos; }
+
+        lastTrackerPos = trackerPos;
+        dist = Vector3.Distance(this.transform.localPosition, tracker.transform.localPosition);
+
+        if (dist > maxDistance && plugObj.lockedStatus == false)
+        {
+            plugObj.Drop(manipulator);
+            Unplug(plugObj);
+        }
+    }
 
     void Plug () {
         manipulator = plugObj.attachedManipulator;
@@ -43,24 +97,40 @@ public class SocketController : MonoBehaviour {
     }
 
 	void PluggedMove() {
-        trackerY = tracker.transform.localPosition.y;
-		if (trackerY > lastTrackerY) { socketY = socketY + (trackerY - lastTrackerY); }
-		if (trackerY < lastTrackerY) { socketY = socketY - (lastTrackerY - trackerY); }
-		if (socketY > maxPosY) { socketY = maxPosY; }
-		if (socketY < minPosY) { socketY = minPosY; }
-        this.transform.localPosition = new Vector3(0, socketY, 0);
-        lastTrackerY = trackerY;
-        if (trackerY > releasePosY) { Unplug(); }
-        if (tracker.transform.localPosition.x > 5.0f || tracker.transform.localPosition.x < -5.0f) { manipulator.Drop(); }
-        if (tracker.transform.localPosition.z > 5.0f || tracker.transform.localPosition.z < -5.0f) { manipulator.Drop(); }
+        if (moveAxisX)
+        {
+            socketOffset.localEulerAngles = new Vector3(socketRot, 0, 0);
+            socketOffset.localPosition = new Vector3(socketPos, 0, 0);
+        }
+
+        if (moveAxisY)
+        {
+            socketOffset.localEulerAngles = new Vector3(0, socketRot, 0);
+            socketOffset.localPosition = new Vector3(0, socketPos, 0);
+        }
+
+        if (moveAxisZ)
+        {
+            socketOffset.localEulerAngles = new Vector3(0, 0, socketRot);
+            socketOffset.localPosition = new Vector3(0, 0, socketPos);
+        }
+        
+        if ((releasePos > 0 && trackerPos > releasePos) || (releasePos < 0 && trackerPos < releasePos))
+        {
+            print("UNPLUG!");
+            Unplug(plugObj);
+        }
     }
 
-    public void Unplug () {
-        print("Unplug!");
-        plugObj.GetComponent<Rigidbody>().isKinematic = false;
-        plugObj.GetComponent<Rigidbody>().useGravity = true;
+    public void Unplug (InteractiveObjectController plugObj) {
+
+        if (plugObj.lockedStatus == false)
+        {
+            plugObj.GetComponent<Rigidbody>().isKinematic = false;
+            plugObj.GetComponent<Rigidbody>().useGravity = true;
+        }
+        plugObj.socketObj = null;
         plugObj.pluggedStatus = false;
         plugObj = null;
-        transform.position = defaultPosition.position;
     }
 }
