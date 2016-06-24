@@ -84,8 +84,7 @@ public class SocketController : MonoBehaviour {
 
         if (dist > maxDistance && plugObj.lockedStatus == false)
         {
-            plugObj.Drop(manipulator);
-            Unplug(plugObj);
+            manipulator.Drop();
         }
     }
 
@@ -115,22 +114,26 @@ public class SocketController : MonoBehaviour {
             socketOffset.localPosition = new Vector3(0, 0, socketPos);
         }
         
-        if ((releasePos > 0 && trackerPos > releasePos) || (releasePos < 0 && trackerPos < releasePos))
+        if (((releasePos > 0 && trackerPos > releasePos) || (releasePos < 0 && trackerPos < releasePos)) && plugObj)
         {
             print("UNPLUG!");
             Unplug(plugObj);
         }
     }
 
-    public void Unplug (InteractiveObjectController plugObj) {
-
-        if (plugObj.lockedStatus == false)
+    public void Unplug (InteractiveObjectController unplugObj)
+    {
+        print("Unplugging: " + unplugObj.name);
+        if (unplugObj.lockedStatus == false)
         {
-            plugObj.GetComponent<Rigidbody>().isKinematic = false;
-            plugObj.GetComponent<Rigidbody>().useGravity = true;
+            unplugObj.GetComponent<Rigidbody>().isKinematic = false;
+            unplugObj.GetComponent<Rigidbody>().useGravity = true;
+            unplugObj.pluggedStatus = false;
+            unplugObj.socketObj = null;
         }
-        plugObj.socketObj = null;
-        plugObj.pluggedStatus = false;
+        //unplugObj.socketObj = null;
+        //unplugObj.pluggedStatus = false;
+        manipulator = null;
         plugObj = null;
     }
 }

@@ -13,6 +13,7 @@ public class ManipulatorController : MonoBehaviour {
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 
 	private InteractiveObjectController closestObj = null;
+    private InteractiveObjectController lastClosestObj = null;
     public InteractiveObjectController grabbedObj = null;
 
 	HashSet<InteractiveObjectController> availableObjects = new HashSet<InteractiveObjectController>();
@@ -60,33 +61,38 @@ public class ManipulatorController : MonoBehaviour {
 	public void Drop () {
 		grabbedObj.Drop(this);
 		grabbedObj = null;
+        grabStatus = false;
 	}
 
     void Sort ()
     {
         float minDistance = float.MaxValue;
         float distance;
+        lastClosestObj = closestObj;
 
         foreach (InteractiveObjectController item in availableObjects)
         {
             distance = (item.transform.position - transform.position).sqrMagnitude;
-            
             if (distance < minDistance)
             {
                 minDistance = distance;
                 closestObj = item;
-
-                if (closestObj != grabbedObj && grabbedObj == null)
-                {
-                    Highlight(closestObj);
-                }
             }
+        }
+
+        if (closestObj != grabbedObj && closestObj.highlightedStatus == false && grabStatus == false)
+        {
+            Highlight(closestObj);
+        }
+
+        if (lastClosestObj != null && lastClosestObj.highlightedStatus == true && lastClosestObj != closestObj)
+        {
+            DeHighlight(lastClosestObj);
         }
     }
 
     void Highlight (InteractiveObjectController colorObj)
     {
-        //print("Highlighting: " + colorObj.name);
         Color col = new Color(0.5f, 0.45f, 0);
         Renderer rend;
         rend = colorObj.GetComponent<Renderer>();
@@ -97,7 +103,6 @@ public class ManipulatorController : MonoBehaviour {
 
     void DeHighlight (InteractiveObjectController colorObj)
     {
-        print("DeHighlighting: " + colorObj.name);
         Renderer rend;
         rend = colorObj.GetComponent<Renderer>();
         rend.material.EnableKeyword("_EMISSION");
@@ -107,7 +112,8 @@ public class ManipulatorController : MonoBehaviour {
 
 	void Grab ()
 	{
-		grabbedObj = closestObj;
+        grabStatus = true;
+        grabbedObj = closestObj;
         DeHighlight(grabbedObj);
 
         if (grabbedObj.grabbedStatus == false) {
@@ -118,7 +124,6 @@ public class ManipulatorController : MonoBehaviour {
             grabbedObj.Drop(grabbedObj.attachedManipulator);
             grabbedObj.Grab(this);
         }
-
 	}
 
 	void OnTriggerEnter (Collider collided) {

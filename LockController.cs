@@ -6,10 +6,7 @@ public class LockController : MonoBehaviour {
     Transform keySocketTrans = null;
     InteractiveObjectController keyObj = null;
     float keyThresholdPos;
-    float keyThresholdRot;
     public bool keySocketStatus = false;
-
-    private bool keyIn = false;
 	// Use this for initialization
 	void Start () {
         keySocketTrans = this.transform.FindChild("KeySocket");
@@ -21,7 +18,6 @@ public class LockController : MonoBehaviour {
         keySocket.releasePos = -0.24f;
         keySocket.maxDistance = 0.275f;
         keyThresholdPos = -0.055f;
-        keyThresholdRot = -5.0f;
     }
 	
 	// Update is called once per frame
@@ -38,8 +34,6 @@ public class LockController : MonoBehaviour {
                 if (keySocket.socketPos > keyThresholdPos)
                 {
                     keySocket.minRot = -90.0f;
-                    //keySocket.minPos = -0.0525f;
-                    print("key reached threshold pos, minRot = " + keySocket.minRot);
                 }
 
                 if (keySocket.socketPos < keyThresholdPos)
