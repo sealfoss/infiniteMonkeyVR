@@ -19,7 +19,6 @@ public class InteractiveObjectController : MonoBehaviour {
 	public bool lockedStatus = false;
 	public bool grabbedStatus = false;
 	public bool pluggedStatus = false;
-	public bool actionStatus = false;
 	public bool offsetStatus = false;
     public bool highlightedStatus = false;
 
@@ -41,29 +40,18 @@ public class InteractiveObjectController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-        if (lockedStatus == true)
-        {
-            //transform.position = socketObj.socketOffset.position;
-            //transform.eulerAngles = socketObj.socketOffset.rotation.eulerAngles;
-		}
-
-        if (lockedStatus == false)
-        {
+        //if (lockedStatus == false)
+        //{
             if (grabbedStatus == true)
             {
                 GrabbedMove();
-
-                if (actionStatus)
-                {
-                    Act();
-                }
             }
 
             if (grabbedStatus == false && pluggedStatus == true)
             {
                 socketObj.Unplug(this);
             }
-        }
+        //}
 	}
 
     public void Lock()
@@ -84,10 +72,6 @@ public class InteractiveObjectController : MonoBehaviour {
         rigidBody = GetComponent<Rigidbody>();
         this.transform.parent = null;
         lockedStatus = false;
-    }
-
-	void Act ()
-    {
 
     }
 
