@@ -13,8 +13,8 @@ public class ManipulatorController : MonoBehaviour {
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 
 	private InteractiveObjectController closestObj = null;
-    private InteractiveObjectController lastClosestObj = null;
-    public InteractiveObjectController grabbedObj = null;
+	private InteractiveObjectController lastClosestObj = null;
+	public InteractiveObjectController grabbedObj = null;
 
 	HashSet<InteractiveObjectController> availableObjects = new HashSet<InteractiveObjectController>();
 
@@ -28,10 +28,10 @@ public class ManipulatorController : MonoBehaviour {
 			return;
 		}
 
-        if (availableObjects.Count > 0)
-        {
-            Sort();
-        }
+	        if (availableObjects.Count > 0)
+	        {
+	            Sort();
+	        }
 
 		if (controller.GetPressDown(gripButton) && availableObjects.Count != 0 && grabbedObj == null) {
 			Grab();
@@ -40,32 +40,16 @@ public class ManipulatorController : MonoBehaviour {
 		if (controller.GetPressUp(gripButton) && grabbedObj) {
 			Drop();
 		}
-
-		if (controller.GetPressDown(triggerButton) && grabbedObj) {
-			Act();
-		}
-
-		if (controller.GetPressUp(triggerButton) && grabbedObj) {
-			Cease();
-		}
-	}
-
-	void Cease () {
-		grabbedObj.actionStatus = false;
-	}
-
-	void Act () {
-		grabbedObj.actionStatus = true;
 	}
 
 	public void Drop () {
 		grabbedObj.Drop(this);
 		grabbedObj = null;
-        grabStatus = false;
+        	grabStatus = false;
 	}
 
-    void Sort ()
-    {
+    	void Sort ()
+    	{
         float minDistance = float.MaxValue;
         float distance;
         lastClosestObj = closestObj;
