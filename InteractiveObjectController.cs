@@ -2,15 +2,15 @@
 using System.Collections;
 
 public class InteractiveObjectController : MonoBehaviour {
-    private float rbMass;
-    private float rbDrag;
-    private float rbADrag;
+    public float rbMass;
+    public float rbDrag;
+    public float rbADrag;
 
     public float velocityFactor = 2000f;
 	public float rotationFactor = 80f;
-	public int maxAV = 20;
+    public float maxAV;
 
-    private Rigidbody rigidBody; 
+    public Rigidbody rigidBody; 
 	private Vector3 posDelta;
 	private Quaternion rotDelta;
 	private float angle;
@@ -19,6 +19,7 @@ public class InteractiveObjectController : MonoBehaviour {
 	public bool lockedStatus = false;
 	public bool grabbedStatus = false;
 	public bool pluggedStatus = false;
+	public bool actionStatus = false;
 	public bool offsetStatus = false;
     public bool highlightedStatus = false;
 
@@ -27,6 +28,7 @@ public class InteractiveObjectController : MonoBehaviour {
     public Transform compositionPoint;
 	public Transform offsetPoint;
 	public SocketController socketObj;
+    //public Transform parentTrans;
 
 	void Start () {
         rbMass = GetComponent<Rigidbody>().mass;
@@ -36,22 +38,30 @@ public class InteractiveObjectController : MonoBehaviour {
 		interactionPoint = new GameObject().transform;
 		velocityFactor /= rigidBody.mass;
 		rotationFactor /= rigidBody.mass;
-		this.rigidBody.maxAngularVelocity = maxAV;
+        maxAV = Mathf.Infinity;
+        this.rigidBody.maxAngularVelocity = maxAV;
 	}
 
 	void FixedUpdate () {
-        //if (lockedStatus == false)
-        //{
+
+        if (lockedStatus == true)
+        {
+            //transform.position = socketObj.socketOffset.position;
+            //transform.eulerAngles = socketObj.socketOffset.rotation.eulerAngles;
+		}
+
+        if (lockedStatus == false)
+        {
             if (grabbedStatus == true)
             {
                 GrabbedMove();
             }
 
-            if (grabbedStatus == false && pluggedStatus == true)
+            if (grabbedStatus == false && pluggedStatus == true && lockedStatus == false)
             {
                 socketObj.Unplug(this);
             }
-        //}
+        }
 	}
 
     public void Lock()
@@ -72,15 +82,15 @@ public class InteractiveObjectController : MonoBehaviour {
         rigidBody = GetComponent<Rigidbody>();
         this.transform.parent = null;
         lockedStatus = false;
-
     }
 
 	public void Drop (ManipulatorController manipulator) {
         if (manipulator == attachedManipulator)
         {
-            if (pluggedStatus == true)
+            if (pluggedStatus == true && lockedStatus == false)
             {
                 socketObj.Unplug(this);
+                socketObj.tracker.manipulator = null;
             }
 
             grabbedStatus = false;
@@ -126,6 +136,7 @@ public class InteractiveObjectController : MonoBehaviour {
 
             posDelta = attachedManipulator.transform.position - interactionPoint.position;
             this.rigidBody.velocity = posDelta * velocityFactor * Time.fixedDeltaTime;
+        
 
             rotDelta = attachedManipulator.transform.rotation * Quaternion.Inverse(interactionPoint.rotation);
             rotDelta.ToAngleAxis(out angle, out axis);
@@ -138,9 +149,10 @@ public class InteractiveObjectController : MonoBehaviour {
             if (angle != 0 && axis != Vector3.zero) {
                 this.rigidBody.angularVelocity = (Time.fixedDeltaTime * angle * axis) * rotationFactor;
             }
+            //print("x velocity = " + GetComponent<Rigidbody>().velocity.x + ", handleR y velocity = " + GetComponent<Rigidbody>().velocity.z + ", handleR y velocity = " + GetComponent<Rigidbody>().velocity.z);
         }
 
-        if (pluggedStatus == true) {
+        if (pluggedStatus == true && lockedStatus == false) {
             PluggedMove();
         }
 	}

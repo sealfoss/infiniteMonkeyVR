@@ -13,10 +13,11 @@ public class ManipulatorController : MonoBehaviour {
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 
 	private InteractiveObjectController closestObj = null;
-	private InteractiveObjectController lastClosestObj = null;
-	public InteractiveObjectController grabbedObj = null;
+    private InteractiveObjectController lastClosestObj = null;
+    public InteractiveObjectController grabbedObj = null;
+    public bool grippingStatus;
 
-	HashSet<InteractiveObjectController> availableObjects = new HashSet<InteractiveObjectController>();
+	public HashSet<InteractiveObjectController> availableObjects = new HashSet<InteractiveObjectController>();
 
 	void Start () {
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -28,28 +29,67 @@ public class ManipulatorController : MonoBehaviour {
 			return;
 		}
 
-	        if (availableObjects.Count > 0)
-	        {
-	            Sort();
-	        }
+        if (availableObjects.Count > 0)
+        {
+            Sort();
+        }
 
-		if (controller.GetPressDown(gripButton) && availableObjects.Count != 0 && grabbedObj == null) {
-			Grab();
+        if (controller.GetPressDown(gripButton))
+        {
+            grippingStatus = true;
+
+            if (availableObjects.Count != 0 && grabbedObj == null)
+            {
+                Grab(closestObj);
+                grippingStatus = true;
+            }
+        }
+
+		if (controller.GetPressUp(gripButton))
+        {
+            grippingStatus = false;
+
+            if (grabbedObj)
+            {
+                Drop();
+            }
 		}
 
-		if (controller.GetPressUp(gripButton) && grabbedObj) {
-			Drop();
+		if (controller.GetPressDown(triggerButton) && grabbedObj) {
+			Act();
+		}
+
+        if (controller.GetPressUp(triggerButton) && grabbedObj)
+        {
+            StopAct();
+        }
+
+        if (controller.GetPressUp(triggerButton) && grabbedObj) {
+			Cease();
 		}
 	}
+
+	void Cease () {
+		grabbedObj.actionStatus = false;
+	}
+
+	void Act () {
+		grabbedObj.actionStatus = true;
+	}
+
+    void StopAct()
+    {
+        grabbedObj.actionStatus = false;
+    }
 
 	public void Drop () {
 		grabbedObj.Drop(this);
 		grabbedObj = null;
-        	grabStatus = false;
+        grabStatus = false;
 	}
 
-    	void Sort ()
-    	{
+    void Sort ()
+    {
         float minDistance = float.MaxValue;
         float distance;
         lastClosestObj = closestObj;
@@ -94,10 +134,10 @@ public class ManipulatorController : MonoBehaviour {
         colorObj.highlightedStatus = false;
     }
 
-	void Grab ()
+	public void Grab (InteractiveObjectController sentObj)
 	{
+        grabbedObj = sentObj;
         grabStatus = true;
-        grabbedObj = closestObj;
         DeHighlight(grabbedObj);
 
         if (grabbedObj.grabbedStatus == false) {
@@ -108,6 +148,7 @@ public class ManipulatorController : MonoBehaviour {
             grabbedObj.Drop(grabbedObj.attachedManipulator);
             grabbedObj.Grab(this);
         }
+
 	}
 
 	void OnTriggerEnter (Collider collided) {

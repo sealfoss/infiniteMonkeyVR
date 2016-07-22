@@ -41,11 +41,7 @@ public class SocketController : MonoBehaviour {
 
 			if (plugObj.pluggedStatus == true && plugObj.grabbedStatus == true) {
                 Track();
-
-                if ((plugObj) && plugObj.lockedStatus == false)
-                {
-                    PluggedMove();
-                }
+                PluggedMove();
 			}
 		}
 	}
@@ -86,6 +82,8 @@ public class SocketController : MonoBehaviour {
         {
             manipulator.Drop();
         }
+
+        print("trackerRot = " + trackerRot);
     }
 
     void Plug () {
@@ -114,7 +112,7 @@ public class SocketController : MonoBehaviour {
             socketOffset.localPosition = new Vector3(0, 0, socketPos);
         }
         
-        if (((releasePos > 0 && trackerPos > releasePos) || (releasePos < 0 && trackerPos < releasePos)) && plugObj)
+        if (((releasePos > 0 && trackerPos > releasePos) || (releasePos < 0 && trackerPos < releasePos)) && plugObj && plugObj.lockedStatus == false)
         {
             print("UNPLUG!");
             Unplug(plugObj);
@@ -124,15 +122,10 @@ public class SocketController : MonoBehaviour {
     public void Unplug (InteractiveObjectController unplugObj)
     {
         print("Unplugging: " + unplugObj.name);
-        if (unplugObj.lockedStatus == false)
-        {
-            unplugObj.GetComponent<Rigidbody>().isKinematic = false;
-            unplugObj.GetComponent<Rigidbody>().useGravity = true;
-            unplugObj.pluggedStatus = false;
-            unplugObj.socketObj = null;
-        }
-        //unplugObj.socketObj = null;
-        //unplugObj.pluggedStatus = false;
+        unplugObj.GetComponent<Rigidbody>().isKinematic = false;
+        unplugObj.GetComponent<Rigidbody>().useGravity = true;
+        unplugObj.pluggedStatus = false;
+        unplugObj.socketObj = null;
         manipulator = null;
         plugObj = null;
     }

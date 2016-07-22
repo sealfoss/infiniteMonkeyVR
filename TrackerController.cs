@@ -11,7 +11,9 @@ public class TrackerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (socket) {
+
+        if (socket)
+        {
             if (socket.tracker == null) {
                 socket.tracker = this;
             }
@@ -29,7 +31,8 @@ public class TrackerController : MonoBehaviour {
                 }
             }
 
-            if (((socket.plugObj == null) || ((socket.plugObj.lockedStatus == true) && (socket.plugObj.attachedManipulator == null))) && (transform.localPosition != Vector3.zero)) {
+            if (((socket.plugObj == null) || (socket.plugObj.grabbedStatus == false)) && (transform.localPosition != Vector3.zero)) {
+                manipulator = null;
                 transform.localPosition = Vector3.zero;
             }
         }
