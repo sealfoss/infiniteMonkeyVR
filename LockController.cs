@@ -102,7 +102,6 @@ public class LockController : MonoBehaviour {
 
     public void OpenLock ()
     {
-        ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
         SoftJointLimit jointLimit = new SoftJointLimit();
         jointLimit.limit = 0.03f;
         /**lockHook.gameObject.AddComponent<Rigidbody>();

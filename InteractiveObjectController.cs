@@ -62,6 +62,11 @@ public class InteractiveObjectController : MonoBehaviour {
                 socketObj.Unplug(this);
             }
         }
+
+        if (actionStatus && !attachedManipulator)
+        {
+            actionStatus = false;
+        }
 	}
 
     public void Lock()

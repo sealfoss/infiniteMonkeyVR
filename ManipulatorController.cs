@@ -16,19 +16,20 @@ public class ManipulatorController : MonoBehaviour {
     private InteractiveObjectController lastClosestObj = null;
     public InteractiveObjectController grabbedObj = null;
     public bool grippingStatus;
+    public bool fistStatus;
+    public float fistForceMultiplyer;
+    public float maxFistForce;
 
 	public HashSet<InteractiveObjectController> availableObjects = new HashSet<InteractiveObjectController>();
 
 	void Start () {
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
+        fistStatus = false;
+        fistForceMultiplyer = 0;
 	}
 
-	void Update () {
-		if (controller == null) {
-			Debug.Log("Controller not initialized");
-			return;
-		}
-
+	void FixedUpdate ()
+    {
         if (availableObjects.Count > 0)
         {
             Sort();
@@ -55,25 +56,60 @@ public class ManipulatorController : MonoBehaviour {
             }
 		}
 
-		if (controller.GetPressDown(triggerButton) && grabbedObj) {
-			Act();
-		}
-
-        if (controller.GetPressUp(triggerButton) && grabbedObj)
+		if (controller.GetPressDown(triggerButton))
         {
-            StopAct();
-        }
+            if (grabbedObj)
+            {
+                Act();
+            }
 
-        if (controller.GetPressUp(triggerButton) && grabbedObj) {
-			Cease();
+            if (!grabbedObj && !fistStatus)
+            {
+                Fist();
+            }
 		}
+
+        if (controller.GetPressUp(triggerButton))
+        {
+            if (grabbedObj)
+            {
+                StopAct();
+            }
+
+            if (!grabbedObj && fistStatus)
+            {
+                UnFist();
+            }
+        }
 	}
 
-	void Cease () {
-		grabbedObj.actionStatus = false;
-	}
+    Vector3 GetDirection(GameObject target)
+    {
+        var heading = target.transform.position - this.transform.position;
+        var distance = heading.magnitude;
+        var direction = heading / distance;
+        return direction;
+    }
 
-	void Act () {
+    void Fist()
+    {
+        GetComponent<Collider>().isTrigger = false;
+        fistStatus = true;
+
+        if (fistForceMultiplyer < maxFistForce)
+        {
+            fistForceMultiplyer = fistForceMultiplyer + 10;
+        }
+    }
+
+    void UnFist ()
+    {
+        GetComponent<Collider>().isTrigger = true;
+        fistStatus = false;
+    }
+
+	void Act ()
+    {
 		grabbedObj.actionStatus = true;
 	}
 
@@ -82,7 +118,8 @@ public class ManipulatorController : MonoBehaviour {
         grabbedObj.actionStatus = false;
     }
 
-	public void Drop () {
+	public void Drop ()
+    {
 		grabbedObj.Drop(this);
 		grabbedObj = null;
         grabStatus = false;
@@ -104,7 +141,7 @@ public class ManipulatorController : MonoBehaviour {
             }
         }
 
-        if (closestObj != grabbedObj && closestObj.highlightedStatus == false && grabStatus == false)
+        if (closestObj != grabbedObj && closestObj.highlightedStatus == false && grabStatus == false && !closestObj.grabbedStatus)
         {
             Highlight(closestObj);
         }
@@ -151,7 +188,8 @@ public class ManipulatorController : MonoBehaviour {
 
 	}
 
-	void OnTriggerEnter (Collider collided) {
+	void OnTriggerEnter (Collider collided)
+    {
 		InteractiveObjectController collidedObj = collided.GetComponent<InteractiveObjectController> ();
 
 		if (collidedObj) {
@@ -159,7 +197,8 @@ public class ManipulatorController : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerExit (Collider collided){
+	void OnTriggerExit (Collider collided)
+    {
 		InteractiveObjectController collidedObj = collided.GetComponent<InteractiveObjectController> ();
 
 		if (collidedObj) {
@@ -167,4 +206,18 @@ public class ManipulatorController : MonoBehaviour {
 			availableObjects.Remove (collidedObj);
 		}
 	}
+
+    void OnCollisionEnter(Collision col)
+    {
+        Rigidbody hitBody = col.rigidbody;
+
+        print("BLAM!");
+
+        if (hitBody)
+        {
+            var direction = GetDirection(col.gameObject);
+            hitBody.AddForce(direction * fistForceMultiplyer, ForceMode.Impulse);
+            fistForceMultiplyer = 0;
+        }
+    }
 }
