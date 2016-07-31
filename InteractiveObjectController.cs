@@ -1,164 +1,133 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class InteractiveObjectController : MonoBehaviour {
+public class InteractiveObjectController : MonoBehaviour
+{
+
+    //physical attributes related to object's movement when held
+    public float velocityFactor = 2000f;
+    public float rotationFactor = 80f;
+    public float maxAV;
+
+    //variables for modifying object's rigidBody
     public float rbMass;
     public float rbDrag;
     public float rbADrag;
+    public Rigidbody rigidBody;
 
-    public float velocityFactor = 2000f;
-	public float rotationFactor = 80f;
-    public float maxAV;
+    //status booleans
+    public bool jointedMove;
+    public bool guidedMove;
+    public bool lockedStatus;
+    public bool grabbedStatus;
+    public bool pluggedStatus;
+    public bool actionStatus;
+    public bool highlightedStatus;
+    public bool orphanStatus;
 
-    public Rigidbody rigidBody; 
-	private Vector3 posDelta;
-	private Quaternion rotDelta;
-	private float angle;
-	private Vector3 axis;
+    //limits and conditions for guided movment
+    public int moveAxisCondition;
+    public int rotAxisCondition;
+    public bool moveAxisX;
+    public bool moveAxisY;
+    public bool moveAxisZ;
+    public bool rotAxisX;
+    public bool rotAxisY;
+    public bool rotAxisZ;
+    public float minPos;
+    public float maxPos;
+    public float minRot;
+    public float maxRot;
+    public float movementResistance;
+    public float rotationAmount;
+    public int revolutions;
+    public int maxRevolutions;
+    public bool stopRot;
+    
+    //max distance held object can be from manipulator in order to still be considered held
+    public float maxDistance;
 
-	public bool lockedStatus = false;
-	public bool grabbedStatus = false;
-	public bool pluggedStatus = false;
-	public bool actionStatus = false;
-	public bool offsetStatus = false;
-    public bool highlightedStatus = false;
+    public ManipulatorConroller attachedManipulator;
+    public Transform offsetPoint;
+    public PlugController plugObj;
 
-	public ManipulatorController attachedManipulator;
-	public Transform interactionPoint;
-    public Transform compositionPoint;
-	public Transform offsetPoint;
-	public SocketController socketObj;
-    //public Transform parentTrans;
-
-	void Start () {
-        rbMass = GetComponent<Rigidbody>().mass;
-        rbDrag = GetComponent<Rigidbody>().drag;
-        rbADrag = GetComponent<Rigidbody>().angularDrag;
-        rigidBody = GetComponent<Rigidbody>();
-		interactionPoint = new GameObject().transform;
-		velocityFactor /= rigidBody.mass;
-		rotationFactor /= rigidBody.mass;
-        maxAV = Mathf.Infinity;
-        this.rigidBody.maxAngularVelocity = maxAV;
-	}
-
-	void FixedUpdate () {
-
-        if (lockedStatus == true)
-        {
-            //transform.position = socketObj.socketOffset.position;
-            //transform.eulerAngles = socketObj.socketOffset.rotation.eulerAngles;
-		}
-
-        if (lockedStatus == false)
-        {
-            if (grabbedStatus == true)
-            {
-                GrabbedMove();
-            }
-
-            if (grabbedStatus == false && pluggedStatus == true && lockedStatus == false)
-            {
-                socketObj.Unplug(this);
-            }
-        }
-
-        if (actionStatus && !attachedManipulator)
-        {
-            actionStatus = false;
-        }
-	}
-
-    public void Lock()
+    void Start()
     {
-        this.transform.parent = socketObj.transform;
-        Destroy(GetComponent<Rigidbody>());
-        lockedStatus = true;
-    }
-
-    public void Unlock()
-    {
-        gameObject.AddComponent<Rigidbody>();
-        GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<Rigidbody>().useGravity = false;
-        GetComponent<Rigidbody>().mass = rbMass;
-        GetComponent<Rigidbody>().drag = rbDrag;
-        GetComponent<Rigidbody>().angularDrag = rbADrag;
-        rigidBody = GetComponent<Rigidbody>();
-        this.transform.parent = null;
-        lockedStatus = false;
-    }
-
-	public void Drop (ManipulatorController manipulator) {
-        if (manipulator == attachedManipulator)
+        if (GetComponent<Rigidbody>())
         {
-            if (pluggedStatus == true && lockedStatus == false)
-            {
-                socketObj.Unplug(this);
-                socketObj.tracker.manipulator = null;
-            }
-
-            grabbedStatus = false;
-            attachedManipulator.grabbedObj = null;
-            attachedManipulator = null;
-            interactionPoint.SetParent(transform, false);
+            rbMass = GetComponent<Rigidbody>().mass;
+            rbDrag = GetComponent<Rigidbody>().drag;
+            rbADrag = GetComponent<Rigidbody>().angularDrag;
+            rigidBody = GetComponent<Rigidbody>();
+            velocityFactor /= rigidBody.mass;
+            rotationFactor /= rigidBody.mass;
+            maxAV = Mathf.Infinity;
+            this.rigidBody.maxAngularVelocity = maxAV;
         }
-	}
 
-	void PluggedMove () {
-        transform.position = socketObj.socketOffset.position;
-        transform.eulerAngles = socketObj.socketOffset.rotation.eulerAngles;
+        if (maxDistance == 0)
+        {
+            maxDistance = Mathf.Infinity;
+        }
     }
 
-	public void Plug () {
-        GetComponent<Rigidbody>().isKinematic = true;
-		GetComponent<Rigidbody>().useGravity = false;
-        transform.position = Vector3.Lerp(this.transform.position, socketObj.transform.position, Time.deltaTime * 5);
-        transform.rotation = Quaternion.Lerp(this.transform.rotation, socketObj.transform.rotation, Time.deltaTime * 5);
-        pluggedStatus = true;
+    void FixedUpdate()
+    {
+        //if object is in guided mode, and conditions haven't already been set, decide the movement and rotationa condition for the guided move function, based on the object's attributes.
+        if (guidedMove && (moveAxisCondition == 00 &&  rotAxisCondition == 00))
+        {
+            SetMoveCondition();
+        }
+
+        //reset plug values upon unplug
+        {
+            if (!plugObj && rotationAmount != 0)
+            {
+                rotationAmount = 0;
+                revolutions = 0;
+            }
+        }
     }
 
-	public void Grab (ManipulatorController manipulator) {
-		attachedManipulator = manipulator;
+    void SetMoveCondition ()
+    {
+        if (moveAxisX || moveAxisY || moveAxisZ)
+        {
+            moveAxisCondition = 1;
+            bool[] moveConditions = new bool[] { moveAxisX, moveAxisY, moveAxisZ };
 
-		if (offsetStatus == true) {
-			transform.rotation = Quaternion.Lerp(this.transform.rotation, offsetPoint.rotation, Time.deltaTime * 1);
-			interactionPoint.position = offsetPoint.position;
-			interactionPoint.rotation = offsetPoint.rotation;
-		}
-
-		if (offsetStatus == false) {
-			interactionPoint.position = manipulator.transform.position;
-			interactionPoint.rotation = manipulator.transform.rotation;
-		}
-
-		interactionPoint.SetParent(transform, true);
-		grabbedStatus = true;
-	}
-
-	void GrabbedMove() {
-        if (pluggedStatus == false) {
-
-            posDelta = attachedManipulator.transform.position - interactionPoint.position;
-            this.rigidBody.velocity = posDelta * velocityFactor * Time.fixedDeltaTime;
-        
-
-            rotDelta = attachedManipulator.transform.rotation * Quaternion.Inverse(interactionPoint.rotation);
-            rotDelta.ToAngleAxis(out angle, out axis);
-
-            if (angle > 180)
+            foreach (bool axis in moveConditions)
             {
-                angle -= 360;
-            }
+                if (axis == true)
+                {
+                    break;
+                }
 
-            if (angle != 0 && axis != Vector3.zero) {
-                this.rigidBody.angularVelocity = (Time.fixedDeltaTime * angle * axis) * rotationFactor;
+                else
+                {
+                    moveAxisCondition++;
+                }
             }
-            //print("x velocity = " + GetComponent<Rigidbody>().velocity.x + ", handleR y velocity = " + GetComponent<Rigidbody>().velocity.z + ", handleR y velocity = " + GetComponent<Rigidbody>().velocity.z);
         }
 
-        if (pluggedStatus == true && lockedStatus == false) {
-            PluggedMove();
+        if (rotAxisX || rotAxisY || rotAxisZ)
+        {
+            rotAxisCondition = 1;
+            bool[] rotConditions = new bool[] { rotAxisX, rotAxisY, rotAxisZ };
+
+            foreach (bool axis in rotConditions)
+            {
+                if (axis == true)
+                {
+                    break;
+                }
+
+                else
+                {
+                    rotAxisCondition++;
+                }
+            }
         }
-	}
+    }
 }
