@@ -53,10 +53,18 @@ public class SquirtGunController : MonoBehaviour
     public float tankLockPosThreshold;
     public float tankRot;
 
+    //vibration variables
+    public float squirtVibrationMultiplier;
 
+    //audio variables
+    AudioSource audioSrc;
+    public AudioClip spraySnd;
+    public float volume;
 
     void Start()
     {
+        audioSrc = GetComponent<AudioSource>();
+
         objectController = GetComponent<InteractiveObjectController>();
         trigger = transform.FindChild("Trigger");
         tankName = "SquirtGun_Tank";
@@ -103,7 +111,6 @@ public class SquirtGunController : MonoBehaviour
         handle.minPos = -0.1385f;
         handle.maxDistance = 1.0f;
         handle.movementResistance = 10;
-
         squirtStatus = false;
     }
 
@@ -186,7 +193,6 @@ public class SquirtGunController : MonoBehaviour
         // if the tank is within the threshold, and has been rotated past the rotation lock threshold, disallow lateral movement, and set the object to locked.
         if (tankPlug.lockPosStatus && !tankObj.lockedStatus && tankObj.revolutions == 1)
         {
-            tankObj.moveAxisZ = false;
             tankObj.moveAxisCondition = 0;
             tankObj.lockedStatus = true;
         }
@@ -194,7 +200,6 @@ public class SquirtGunController : MonoBehaviour
         //if the tank is within the threshold and rotates back under the rotation lock threshold, re-enable lateral movement, unlock the object.
         if (tankPlug.lockPosStatus && tankObj.lockedStatus && tankObj.revolutions == 0)
         {
-            tankObj.moveAxisZ = true;
             tankObj.moveAxisCondition = 3;
             tankObj.lockedStatus = false;
         }
@@ -220,6 +225,10 @@ public class SquirtGunController : MonoBehaviour
         {
             pressure = maxP;
         }
+
+        ushort vibration = (ushort)(pressure * squirtVibrationMultiplier);
+        handle.attachedManipulator.Vibrate(vibration);
+
     }
 
     void Squirt()
@@ -240,7 +249,7 @@ public class SquirtGunController : MonoBehaviour
         {
             waterLevel = 0;
         }
-        
+
         // if the tank is attached, caluclate water level over time, as the gun is fired
         else
         {
@@ -254,7 +263,7 @@ public class SquirtGunController : MonoBehaviour
 
         //calculate water pressure
         pressure = (pressure - pressureDepletionRate) * waterLevel;
-        
+
         //prevent negative pressure from occuring, because THATS IMPOSSIBLE!!(*$&(@!$
         if (pressure < 0)
         {
@@ -302,6 +311,25 @@ public class SquirtGunController : MonoBehaviour
         //splash1 particle system functions
         splash2.startSize = Random.Range(0.01f, (pressure / 40));
         splash2.startColor = new Vector4(splash2.startColor.r, splash2.startColor.g, splash2.startColor.b, streamColorAlpha);
+
+        //vibrate the controller accordingly
+        ushort vibration = (ushort)(pressure * squirtVibrationMultiplier);
+        objectController.attachedManipulator.Vibrate(vibration);
+
+        if (handle.grabbedStatus)
+        {
+            handle.attachedManipulator.Vibrate(vibration);
+        }
+
+        //play sound
+
+        if (!audioSrc.enabled || !audioSrc.isPlaying)
+        {
+            
+            audioSrc.enabled = true;
+            print("play Audio!");
+            audioSrc.PlayOneShot(spraySnd, (pressure * volume));
+        }
     }
 
     void ShutOff()
@@ -310,6 +338,7 @@ public class SquirtGunController : MonoBehaviour
         streamEM.enabled = false;
         sprayEM.enabled = false;
         streamSprayEM.enabled = false;
+        audioSrc.enabled = false;
     }
 
     void PullTrigger()

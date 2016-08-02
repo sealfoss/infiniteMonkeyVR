@@ -5,6 +5,7 @@ public class PlugController : MonoBehaviour {
     public bool oneHandPlug;
     public Transform guide;
     public InteractiveObjectController pluggedObj;
+    public InteractiveObjectController parentObj;
     public string soughtForName;
     public bool pluggedStatus;
     public float unplugPos;
@@ -29,6 +30,7 @@ public class PlugController : MonoBehaviour {
 
             if (pluggedObj.attachedManipulator)
             {
+                //if the plugged object reaches the unplug pos on any axis, unplug the object
                 if (pluggedObj.transform.localPosition.x >= unplugPos || pluggedObj.transform.localPosition.y >= unplugPos || pluggedObj.transform.localPosition.z >= unplugPos)
                 {
                     Unplug(pluggedObj);
@@ -55,6 +57,8 @@ public class PlugController : MonoBehaviour {
         //reset the object
         unpluggingObj.pluggedStatus = false;
         unpluggingObj.plugObj = null;
+        //tell the unplugging object that it no longer has a parent, and it has been given up for adoption
+        unpluggingObj.parentObj = null;
         //reset the plug
         pluggedStatus = false;
         pluggedObj = null;
@@ -77,6 +81,8 @@ public class PlugController : MonoBehaviour {
         pluggingObj.plugObj = this;
         //tell the object it has been plugged
         pluggingObj.pluggedStatus = true;
+        //tell this it has a parent object that loves it
+        pluggingObj.parentObj = parentObj;
         //tell the plug that everything is good to go
         pluggedStatus = true;
     }

@@ -25,16 +25,13 @@ public class InteractiveObjectController : MonoBehaviour
     public bool actionStatus;
     public bool highlightedStatus;
     public bool orphanStatus;
+    public bool animated;
 
     //limits and conditions for guided movment
+    //which axis you want the object to move on when guided/plugged 1=x, 2=y, 3=z
     public int moveAxisCondition;
+    //which axis you want the object to rotate on when guided/plugged 1=x, 2=y, 3=z
     public int rotAxisCondition;
-    public bool moveAxisX;
-    public bool moveAxisY;
-    public bool moveAxisZ;
-    public bool rotAxisX;
-    public bool rotAxisY;
-    public bool rotAxisZ;
     public float minPos;
     public float maxPos;
     public float minRot;
@@ -48,9 +45,16 @@ public class InteractiveObjectController : MonoBehaviour
     //max distance held object can be from manipulator in order to still be considered held
     public float maxDistance;
 
+    //on collision, these variables have to do with how much you feel the impact
+    float magnitude;
+    public float vibrationMultiplier;
+
+    //objects this object may need to interface with, depending on the cirumstances
     public ManipulatorConroller attachedManipulator;
     public Transform offsetPoint;
     public PlugController plugObj;
+    public InteractiveObjectController parentObj;
+
 
     void Start()
     {
@@ -74,12 +78,6 @@ public class InteractiveObjectController : MonoBehaviour
 
     void FixedUpdate()
     {
-        //if object is in guided mode, and conditions haven't already been set, decide the movement and rotationa condition for the guided move function, based on the object's attributes.
-        if (guidedMove && (moveAxisCondition == 00 &&  rotAxisCondition == 00))
-        {
-            SetMoveCondition();
-        }
-
         //reset plug values upon unplug
         {
             if (!plugObj && rotationAmount != 0)
@@ -88,46 +86,35 @@ public class InteractiveObjectController : MonoBehaviour
                 revolutions = 0;
             }
         }
-    }
 
-    void SetMoveCondition ()
-    {
-        if (moveAxisX || moveAxisY || moveAxisZ)
+        if (parentObj)
         {
-            moveAxisCondition = 1;
-            bool[] moveConditions = new bool[] { moveAxisX, moveAxisY, moveAxisZ };
-
-            foreach (bool axis in moveConditions)
+            //if the parent object is dropped while the plugged object is still attached to it, tell the plugged object that it is now an orphan, as its parent is dead
+            if (!parentObj.attachedManipulator && !orphanStatus)
             {
-                if (axis == true)
-                {
-                    break;
-                }
+                orphanStatus = true;
+            }
 
-                else
-                {
-                    moveAxisCondition++;
-                }
+            //if the parent object is picked back up, tell the object it has a family who loves him once more
+            if(parentObj.attachedManipulator && orphanStatus)
+            {
+                orphanStatus = false;
             }
         }
 
-        if (rotAxisX || rotAxisY || rotAxisZ)
+        if (!parentObj && orphanStatus)
         {
-            rotAxisCondition = 1;
-            bool[] rotConditions = new bool[] { rotAxisX, rotAxisY, rotAxisZ };
+            orphanStatus = false;
+        }
+    }
 
-            foreach (bool axis in rotConditions)
-            {
-                if (axis == true)
-                {
-                    break;
-                }
-
-                else
-                {
-                    rotAxisCondition++;
-                }
-            }
+    void OnCollisionEnter(Collision collision)
+    {
+        if (attachedManipulator)
+        {
+            magnitude = collision.relativeVelocity.magnitude;
+            ushort vibration = (ushort)(magnitude * vibrationMultiplier);
+            attachedManipulator.Vibrate(vibration);
         }
     }
 }
