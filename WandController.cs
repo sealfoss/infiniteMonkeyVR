@@ -1,93 +1,162 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WandController : MonoBehaviour {
     ManipulatorController manipulator;
     InteractiveObjectController objectController;
+
+    bool fireMode;
     bool sparkleStatus;
+
+    public AudioClip fireSpray;
+    public AudioClip fireWoosh;
+    public AudioClip sparkleTwinkle;
+    public AudioClip flameBurn;
+    public AudioSource jetAudioSrc;
+    public AudioSource flameAudioSrc;
+    public AudioSource sparkleAudioSrc;
+    public AudioSource fireWooshAudioSrc;
 
     public ParticleSystem sparks;
     ParticleSystem.EmissionModule sparksEM;
     public Light sparksLight;
-    Rigidbody rigidbody;
 
+    public ParticleSystem fire;
+    ParticleSystem.EmissionModule fireEM;
+
+    public ParticleSystem smoke;
+    ParticleSystem.EmissionModule smokeEM;
+
+    public ParticleSystem flame;
+    ParticleSystem.EmissionModule flameEM;
+
+    public ParticleSystem jet;
+    ParticleSystem.EmissionModule jetEM;
+    public Light fireLight;
+
+    bool jetStatus;
+    public float fuel;
+    public float fuelRate;
+    public float minFuel;
     public Transform head;
     public Transform wandTip;
-    float maxX;
-    float maxY;
-    float maxZ;
-
-    public GameObject grid;
-    public GameObject[] slots = new GameObject[16];
-    GameObject newGrid;
-    //bool[,] gridSwitches = new bool[4,4];
-    int lastRow;
-    int lastColumn;
-    int lastQuad;
-    bool gridStatus;
-    int direction;
-    int lastDirection;
-    public int sequenceLength;
-    int[] sequence;
-    public bool directionUp;
-    public bool directionDown ;
-    public bool directionRight;
-    public bool directionLeft;
-
+    public Transform lastTracker;
+    public Transform refObject;
+    bool referenceStatus;
+    Vector3 direction;
+    public float minDist;
+    public float directionTolerance;
+    public List<int> spellSequence;
+    public int[] fireCode = new int[3];
 
     // Use this for initialization
-    void Start () {
-        rigidbody = this.GetComponent<Rigidbody>();
+    void Start ()
+    {
+        fireWooshAudioSrc.enabled = true;
+        sparkleAudioSrc.enabled = true;
+        flameAudioSrc.enabled = true;
+        jetAudioSrc.enabled = true;
+        objectController = GetComponent<InteractiveObjectController>();
+
+        spellSequence = new List<int>();
+        //spellSequence[0] = 0;
+
+        lastTracker = new GameObject().transform;
+        lastTracker.parent = head;
 
         sparksEM = sparks.emission;
         sparksEM.enabled = false;
         sparksLight.enabled = false;
-        objectController = GetComponent<InteractiveObjectController>();
-        maxX = 0;
-        maxY = 0;
-        maxZ = 0;
-        gridStatus = false;
 
-        if (sequenceLength == 0)
-        {
-            sequenceLength = 4;
-        }
+        fireEM = fire.emission;
+        fireEM.enabled = false;
 
-        sequence = new int[sequenceLength];
+        flameEM = flame.emission;
+        flameEM.enabled = false;
 
-        for (int i = 0; i < sequenceLength; i++)
-        {
-            sequence[i] = 0;
-        }
+        jetEM = jet.emission;
+        jetEM.enabled = false;
+        fireLight.enabled = false;
+
+        smokeEM = smoke.emission;
+        smokeEM.enabled = false;
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         if (objectController.grabbedStatus)
         {
-            if (!manipulator)
+            if (fireMode)
             {
-                manipulator = objectController.attachedManipulator;
-            }
-
-            if(manipulator)
-            {
-                if(manipulator.actionStatus)
+                if (!manipulator)
                 {
-                    Locate();
-                    Sparkle();
+                    manipulator = objectController.attachedManipulator;
                 }
 
-                if(!manipulator.actionStatus && sparkleStatus)
+                if (manipulator)
                 {
-                    EndSparkle();
-                    DestroyGrid();
+                    if (manipulator.actionStatus)
+                    {
+                        if (!jetStatus)
+                        {
+                            ShootJet();
+                        }
+                    }
+
+                    if (!manipulator.actionStatus)
+                    {
+                        if(jetStatus)
+                        {
+                            EndJet();
+                        }
+                    }
+                }
+            }
+
+            if (!fireMode)
+            {
+                if (!manipulator)
+                {
+                    manipulator = objectController.attachedManipulator;
+                }
+
+                if (manipulator)
+                {
+                    if (manipulator.actionStatus)
+                    {
+                        Track();
+
+                        if (!sparkleStatus)
+                        {
+                            Sparkle();
+                        }
+                    }
+
+                    if (!manipulator.actionStatus)
+                    {
+                        if (referenceStatus)
+                        {
+                            ResetTracking();
+                        }
+
+                        if (sparkleStatus)
+                        {
+                            EndSparkle();
+                        }
+                    }
                 }
             }
         }
 
         if (!objectController.grabbedStatus)
         {
+            if (fireMode)
+            {
+                Extinguish();
+            }
+
             if (manipulator)
             {
                 manipulator = null;
@@ -96,225 +165,274 @@ public class WandController : MonoBehaviour {
             if (sparkleStatus)
             {
                 EndSparkle();
-                DestroyGrid();
+                ResetTracking();
             }
         }
 	}
 
+    void ShootJet()
+    {
+        if (!jetAudioSrc.isPlaying)
+        {
+            jetAudioSrc.PlayOneShot(fireSpray, fuel);
+        }
+
+        var jetEmitRate = jetEM.rate.constantMax;
+        var flameEmitRate = flameEM.rate.constantMax;
+
+        fuel = fuel - fuelRate;
+
+        jet.startSpeed = 10 * fuel;
+        jet.startSize = fuel;
+        jetEmitRate = 75 * fuel;
+
+        flame.startSpeed = 0.1f * fuel; // divided by 10?
+        flame.startSize = 0.15f * fuel;
+        flameEmitRate = 50 * fuel; 
+
+        fuel = fuel - fuelRate;
+
+        if (!jetStatus)
+        {
+            fireLight.range = 2;
+            jetEM.enabled = true;
+            jetStatus = true;
+        }
+
+        if (fuel < minFuel)
+        {
+            Extinguish();
+        }
+    }
+
+    void EndJet()
+    {
+        jetAudioSrc.Stop();
+        fireLight.range = 1;
+        jetEM.enabled = false;
+        jetStatus = false;
+    }
+
     void Sparkle()
     {
+        fire.gameObject.SetActive(false);
         sparksEM.enabled = true;
         sparksLight.enabled = true;
+        smokeEM.enabled = true;
         sparkleStatus = true;
+
+        if (!sparkleAudioSrc.isPlaying)
+        {
+            sparkleAudioSrc.Play();
+        }
     }
 
     void EndSparkle()
     {
+        sparkleAudioSrc.Stop();
+        smokeEM.enabled = false;
         sparksEM.enabled = false;
         sparksLight.enabled = false;
         sparkleStatus = false;
+    }
 
-        maxX = 0;
-        maxY = 0;
-        maxZ = 0;
+    void Extinguish()
+    {
+        EndJet();
+        flameEM.enabled = false;
+        fire.gameObject.SetActive(false);
+        fireEM.enabled = false;
+        fireMode = false;
+        fireLight.enabled = false;
+        flameAudioSrc.Stop();
+        fireWooshAudioSrc.Stop();
     }
 
     void ActivateFire()
     {
-        print("FIRE!");
+        fuel = 1;
+        fire.gameObject.SetActive(true);
+        fireEM.enabled = true;
+        manipulator.actionStatus = false;
+        flameEM.enabled = true;
+        flame.startSize = 0.15f;
+        fireMode = true;
+        fireLight.range = 1;
+        fireLight.enabled = true;
+        fireWooshAudioSrc.PlayOneShot(fireWoosh, 1);
+        flameAudioSrc.Play();
     }
 
-    void AddToSequence(int newDirection)
+    void ResetTracking()
     {
-        // go through sequence, and put newDirection at the first open slot
-        for(int i = 0; i < sequenceLength; i++)
-        {
-            if (sequence[i] == 0)
-            {
-                sequence[i] = newDirection;
-                break;
-            }
-
-            //if you get to the end of sequence, but there are no empty slots, zero out the entire array and start over
-            if (sequence[sequenceLength - 1] != 0 && sequence[sequenceLength - 1] != newDirection)
-            {
-                for (int j = 0; j < sequenceLength; j++)
-                {
-                    sequence[j] = 0;
-                }
-
-                sequence[0] = newDirection;
-            }
-        }
+        Destroy(refObject.gameObject);
+        Destroy(lastTracker.gameObject);
+        referenceStatus = false;
+        spellSequence.Clear();
+        spellSequence.Add(0);
     }
 
-    public void DetectDirectionBad (int row, int column)
+    void BuildRefObjects()
     {
-        int quad = 0;
-
-        if (row < 3 && column < 3)
-        {
-            quad = 1;
-        }
-
-        if (row < 3 && column > 2)
-        {
-            quad = 2;
-        }
-
-        if (row > 2 && column < 3)
-        {
-            quad = 3;
-        }
-
-        if (row > 2 && column > 2)
-        {
-            quad = 4;
-        }
-
-        if (lastQuad != 0 && quad != lastQuad)
-        {
-            //print("row = " + row + ", last row = " + lastRow);
-            directionUp = false;
-            directionDown = false;
-            directionRight = false;
-            directionLeft = false;
-
-            if (row < lastRow)
-            {
-                directionUp = true;
-                //directionDown = false;
-            }
-
-            if (row > lastRow)
-            {
-                directionDown = true;
-                directionUp = false;
-            }
-
-            if (column > lastColumn)
-            {
-                //print("Direction right");
-                directionRight = true;
-                //directionLeft = false;
-            }
-
-            if (column < lastColumn)
-            {
-                //print("Direction left");
-                directionLeft = true;
-                //directionRight = false;
-            }
-
-            if (directionUp) //1 is up, 2 is up/right, 3 is right, 4 is down/right, 5 is down, 6 is down/left, 7 is left, 8 is up/left
-            {
-                direction = 1;
-                {
-                    if (directionRight)
-                    {
-                        direction = 2;
-                    }
-
-                    if (directionLeft)
-                    {
-                        direction = 8;
-                    }
-                }
-            }
-
-            if (directionDown)
-            {
-                direction = 5;
-                {
-                    if (directionRight)
-                    {
-                        direction = 4;
-                    }
-
-                    if (directionLeft)
-                    {
-                        direction = 6;
-                    }
-                }
-            }
-
-            if (directionRight && (!directionUp && !directionDown))
-            {
-                direction = 3;
-            }
-
-            if (directionLeft && (!directionUp && !directionDown))
-            {
-                direction = 7;
-            }
-
-            if (direction != lastDirection && direction != 0)
-            {
-                print("new direction = " + direction);
-                AddToSequence(direction);
-            }
-        }
-        
-        if (lastQuad != quad)
-        {
-            lastQuad = quad;
-        }
-
-        lastRow = row;
-        lastColumn = column;
-        lastDirection = direction;
+        refObject = new GameObject().transform;
+        refObject.position = head.position;
+        refObject.rotation = head.rotation;
+        refObject.eulerAngles = new Vector3(0, refObject.eulerAngles.y, 0);
+        lastTracker = new GameObject().transform;
+        lastTracker.parent = refObject;
+        referenceStatus = true;
     }
 
-    void DestroyGrid()
+    Vector3 GetTrackerDirection(Transform tracker)
     {
-        //Destroy(newGrid.gameObject);
-        gridStatus = false;
+        var heading = tracker.transform.localPosition - lastTracker.transform.localPosition;
+        var distance = heading.magnitude;
+        var dir = heading / distance;
+        return dir;
     }
 
-    void BuildGridBad()
+    void Track()
     {
-        Transform buildLocation = new GameObject().transform;
-        buildLocation.parent = head;
-        buildLocation.localPosition = new Vector3(0, 0, 0.75f);
-        buildLocation.localRotation = Quaternion.identity;
-        newGrid = (GameObject)GameObject.Instantiate(grid);
-        newGrid.transform.position = buildLocation.position;
-        newGrid.transform.rotation = buildLocation.rotation;
-        newGrid.transform.localEulerAngles = new Vector3(0, newGrid.transform.localEulerAngles.y, 0);
-        //newGrid.transform.parent = head;
-        gridStatus = true;
-    }
-
-    void Locate()
-    {
-        /**if (!gridStatus)
-        {
-            BuildGrid();
-        }**/
-
-        var localVelocity = transform.InverseTransformDirection(rigidbody.velocity);
-        print("localVelocity = " + localVelocity);
-
+        //dirNum is basically an integer designating the direciton of 
+        int dirNum = 0;
         Transform tracker = new GameObject().transform;
-        tracker.parent = head;
         tracker.position = wandTip.position;
 
-        if (Mathf.Abs(tracker.localPosition.x) > Mathf.Abs(maxX))
+        if (!referenceStatus || lastTracker == null)
         {
-            maxX = tracker.localPosition.x;
+            BuildRefObjects();
+            lastTracker.position = tracker.position;
         }
 
-        if (Mathf.Abs(tracker.localPosition.y) > Mathf.Abs(maxY))
+        refObject.eulerAngles = new Vector3(0, head.eulerAngles.y, 0);
+        tracker.parent = refObject;
+
+        if (lastTracker != null)
         {
-            maxY = tracker.localPosition.y;
+            float dist = Vector3.Distance(lastTracker.position, tracker.position);
+
+            if (dist > minDist)
+            {
+                direction = GetTrackerDirection(tracker);
+                lastTracker.position = tracker.position;
+            }
+
+            var dirY = direction.x;
+            var dirX = direction.y;
+
+            if (Mathf.Abs(dirX) < directionTolerance)
+            {
+                dirX = 0;
+            }
+
+            if (Mathf.Abs(dirY) < directionTolerance)
+            {
+                dirY = 0;
+            }
+
+            if (dirX > 0)
+            {
+                if (dirY == 0)
+                {
+                    //print("up");
+                    dirNum = 8;
+                }
+
+                if (dirY > 0)
+                {
+                    //print("up right");
+                    dirNum = 1;
+                }
+
+                if (dirY < 0)
+                {
+                    //print("up left");
+                    dirNum = 7;
+                }
+            }
+
+            if (dirX < 0)
+            {
+                if (dirY == 0)
+                {
+                    //print("down");
+                    dirNum = 4;
+                }
+
+                if (dirY > 0)
+                {
+                    //print("down right");
+                    dirNum = 3;
+                }
+
+                if (dirY < 0)
+                {
+                    //print("down left");
+                    dirNum = 5;
+                }
+            }
+
+            if (dirX == 0)
+            {
+                if (dirY == 0)
+                {
+                    //print("nowhere");
+                    dirNum = 0;
+                }
+
+                if (dirY > 0)
+                {
+                    //print("right");
+                    dirNum = 2;
+                }
+
+                if (dirY < 0)
+                {
+                    //print("left");
+                    dirNum = 6;
+                }
+            }
+
+            int spellCount = spellSequence.Count;
+
+            if (spellSequence.Count > 2)
+            {
+                if (dirNum != spellSequence[spellCount - 1])
+                {
+                    spellSequence.Add(dirNum);
+
+                    if (spellCount + 1 > 2)
+                    {
+                        DetectPattern();
+                    }
+                }
+            }
+
+            if (spellCount < 3)
+            {
+                spellSequence.Add(dirNum);
+            }
         }
 
-        if (Mathf.Abs(tracker.localPosition.z) > Mathf.Abs(maxZ))
-        {
-            maxZ = tracker.localPosition.z;
-        }
-
-        //print("max X = " + maxX + ", max y = " + maxY + ", max z = " + maxZ);
         Destroy(tracker.gameObject);
+    }
+
+    void DetectPattern()
+    {
+        int spellCount = spellSequence.Count;
+
+        for (int i = 0; i < spellCount; i++)
+        {
+            if (spellSequence[i] == fireCode[0])
+            {
+                if ((i + 1 < spellCount) && (spellSequence[i + 1] == fireCode[1]))
+                {
+                    if ((i + 2 < spellCount) && (spellSequence[i+2] == fireCode[2] || spellSequence[i + 2] == 8 || spellSequence[i + 2] == 2))
+                    {
+                        ActivateFire();
+                    }
+                }
+            }
+        }
     }
 }

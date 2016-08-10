@@ -17,7 +17,6 @@ public class InteractiveObjectController : MonoBehaviour
     public Rigidbody rigidBody;
 
     //status booleans
-    public bool jointedMove;
     public bool guidedMove;
     public bool lockedStatus;
     public bool grabbedStatus;
@@ -44,17 +43,20 @@ public class InteractiveObjectController : MonoBehaviour
     
     //max distance held object can be from manipulator in order to still be considered held
     public float maxDistance;
+    public float moveResistance;
 
     //on collision, these variables have to do with how much you feel the impact
     float magnitude;
     public float vibrationMultiplier;
 
     //objects this object may need to interface with, depending on the cirumstances
-    public ManipulatorConroller attachedManipulator;
+    public ManipulatorController attachedManipulator;
     public Transform offsetPoint;
     public PlugController plugObj;
     public InteractiveObjectController parentObj;
 
+    //trying to figure out a better way to do this, but, for now, this bool will have to do
+    public bool effectStatus;
 
     void Start()
     {

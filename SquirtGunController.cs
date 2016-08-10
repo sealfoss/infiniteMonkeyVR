@@ -125,6 +125,11 @@ public class SquirtGunController : MonoBehaviour
                 Recharge();
             }
 
+            if (handleDistance < lastHandleDistance)
+            {
+                handle.moveResistance = 0;
+            }
+
             lastHandleDistance = handleDistance;
         }
 
@@ -169,6 +174,11 @@ public class SquirtGunController : MonoBehaviour
         if (tankObj && !tankPlug.pluggedStatus)
         {
             tankObj = null;
+        }
+
+        if(!objectController.attachedManipulator && squirtStatus)
+        {
+            ShutOff();
         }
     }
 
@@ -226,6 +236,7 @@ public class SquirtGunController : MonoBehaviour
             pressure = maxP;
         }
 
+        handle.moveResistance = pressure / 10;
         ushort vibration = (ushort)(pressure * squirtVibrationMultiplier);
         handle.attachedManipulator.Vibrate(vibration);
 
