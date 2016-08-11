@@ -11,4 +11,4 @@ attach an InteractiveObjectController script to each object you would like to be
 
 interactive objects must have a collider and a rigidbody.
 
-Everything I've written here is released under the GNU General Public License. 
+Everything I've written here is released under the MIT Free Software License.
