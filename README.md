@@ -9,4 +9,6 @@ attach a ManipulatorController script to each of the Controller prefabs within t
 
 attach an InteractiveObjectController script to each object you would like to be interactable with your Vive.
 
-interactive objects must have a collider and a rigidbody.  
+interactive objects must have a collider and a rigidbody.
+
+Everything I've written here is released under the GNU General Public License. 
