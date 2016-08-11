@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿//Just so everybody is real clear on this, my Grab() and GrabbedMove() functions in this script were lifted from Newton VR
+//Newton VR is available here: https://github.com/TomorrowTodayLabs/NewtonVR
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
