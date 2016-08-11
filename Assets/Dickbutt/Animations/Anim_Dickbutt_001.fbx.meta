@@ -1,0 +1,994 @@
+fileFormatVersion: 2
+guid: fdf558a4ad550e6469e245faa262c18e
+timeCreated: 1470495806
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: dickbuttOrientedSkeleton_Joint_Root
+    100004: Geo_Dickbutt_LOD0
+    100006: Joint_Ankle_Left
+    100008: Joint_Ankle_Right
+    100010: Joint_Dick_001
+    100012: Joint_Dick_002
+    100014: Joint_Dick_003
+    100016: Joint_Elbow_Left
+    100018: Joint_Elbow_Right
+    100020: Joint_Finger_Index_Left_001
+    100022: Joint_Finger_Index_Left_002
+    100024: Joint_Finger_Index_Right_001
+    100026: Joint_Finger_Index_Right_002
+    100028: Joint_Finger_Middle_Left_001
+    100030: Joint_Finger_Middle_Left_002
+    100032: Joint_Finger_Middle_Right_001
+    100034: Joint_Finger_Middle_Right_002
+    100036: Joint_Finger_Pinky_Left_001
+    100038: Joint_Finger_Pinky_Left_002
+    100040: Joint_Finger_Pinky_Right_001
+    100042: Joint_Finger_Pinky_Right_002
+    100044: Joint_Foot_Left
+    100046: Joint_Foot_Right
+    100048: Joint_Hip
+    100050: Joint_Knee_Left
+    100052: Joint_Knee_Right
+    100054: Joint_Root
+    100056: Joint_Shoulder_Left
+    100058: Joint_Shoulder_Right
+    100060: Joint_Spine_001
+    100062: Joint_Spine_002
+    100064: Joint_Spine_003
+    100066: Joint_Spine_004
+    100068: Joint_Spine_005
+    100070: Joint_Tail_001
+    100072: Joint_Tail_002
+    100074: Joint_Thigh_Left
+    100076: Joint_Thigh_Right
+    100078: Joint_Wrist_Left
+    100080: Joint_Wrist_Right
+    400000: //RootNode
+    400002: dickbuttOrientedSkeleton_Joint_Root
+    400004: Geo_Dickbutt_LOD0
+    400006: Joint_Ankle_Left
+    400008: Joint_Ankle_Right
+    400010: Joint_Dick_001
+    400012: Joint_Dick_002
+    400014: Joint_Dick_003
+    400016: Joint_Elbow_Left
+    400018: Joint_Elbow_Right
+    400020: Joint_Finger_Index_Left_001
+    400022: Joint_Finger_Index_Left_002
+    400024: Joint_Finger_Index_Right_001
+    400026: Joint_Finger_Index_Right_002
+    400028: Joint_Finger_Middle_Left_001
+    400030: Joint_Finger_Middle_Left_002
+    400032: Joint_Finger_Middle_Right_001
+    400034: Joint_Finger_Middle_Right_002
+    400036: Joint_Finger_Pinky_Left_001
+    400038: Joint_Finger_Pinky_Left_002
+    400040: Joint_Finger_Pinky_Right_001
+    400042: Joint_Finger_Pinky_Right_002
+    400044: Joint_Foot_Left
+    400046: Joint_Foot_Right
+    400048: Joint_Hip
+    400050: Joint_Knee_Left
+    400052: Joint_Knee_Right
+    400054: Joint_Root
+    400056: Joint_Shoulder_Left
+    400058: Joint_Shoulder_Right
+    400060: Joint_Spine_001
+    400062: Joint_Spine_002
+    400064: Joint_Spine_003
+    400066: Joint_Spine_004
+    400068: Joint_Spine_005
+    400070: Joint_Tail_001
+    400072: Joint_Tail_002
+    400074: Joint_Thigh_Left
+    400076: Joint_Thigh_Right
+    400078: Joint_Wrist_Left
+    400080: Joint_Wrist_Right
+    4300000: Geo_Dickbutt_LOD0
+    7400000: GetUp
+    7400002: Walk
+    7400004: Stand
+    7400006: TPose
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Geo_Dickbutt_LOD0
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
+      improve retargeting quality.\n\t'Joint_Hip' has translation animation that will
+      be discarded.\n\t'Joint_Hip' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Walk
+      takeName: Take 001
+      firstFrame: 70
+      lastFrame: 90
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: dickbuttOrientedSkeleton_Joint_Root
+        weight: 1
+      - path: Geo_Dickbutt_LOD0
+        weight: 1
+      - path: Joint_Root
+        weight: 1
+      - path: Joint_Root/Joint_Hip
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Index_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Index_Left_001/Joint_Finger_Index_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Middle_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Middle_Left_001/Joint_Finger_Middle_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Pinky_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Pinky_Left_001/Joint_Finger_Pinky_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Index_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Index_Right_001/Joint_Finger_Index_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Middle_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Middle_Right_001/Joint_Finger_Middle_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Pinky_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Pinky_Right_001/Joint_Finger_Pinky_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Spine_004
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Spine_004/Joint_Spine_005
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001/Joint_Dick_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001/Joint_Dick_002/Joint_Dick_003
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left/Joint_Ankle_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left/Joint_Ankle_Left/Joint_Foot_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right/Joint_Ankle_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right/Joint_Ankle_Right/Joint_Foot_Right
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: GetUp
+      takeName: Take 001
+      firstFrame: 40
+      lastFrame: 41
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: dickbuttOrientedSkeleton_Joint_Root
+        weight: 1
+      - path: Geo_Dickbutt_LOD0
+        weight: 1
+      - path: Joint_Root
+        weight: 1
+      - path: Joint_Root/Joint_Hip
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Index_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Index_Left_001/Joint_Finger_Index_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Middle_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Middle_Left_001/Joint_Finger_Middle_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Pinky_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Pinky_Left_001/Joint_Finger_Pinky_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Index_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Index_Right_001/Joint_Finger_Index_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Middle_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Middle_Right_001/Joint_Finger_Middle_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Pinky_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Pinky_Right_001/Joint_Finger_Pinky_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Spine_004
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Spine_004/Joint_Spine_005
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001/Joint_Dick_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001/Joint_Dick_002/Joint_Dick_003
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left/Joint_Ankle_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left/Joint_Ankle_Left/Joint_Foot_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right/Joint_Ankle_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right/Joint_Ankle_Right/Joint_Foot_Right
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: Stand
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 21
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: dickbuttOrientedSkeleton_Joint_Root
+        weight: 1
+      - path: Geo_Dickbutt_LOD0
+        weight: 1
+      - path: Joint_Root
+        weight: 1
+      - path: Joint_Root/Joint_Hip
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Index_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Index_Left_001/Joint_Finger_Index_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Middle_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Middle_Left_001/Joint_Finger_Middle_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Pinky_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Pinky_Left_001/Joint_Finger_Pinky_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Index_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Index_Right_001/Joint_Finger_Index_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Middle_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Middle_Right_001/Joint_Finger_Middle_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Pinky_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Pinky_Right_001/Joint_Finger_Pinky_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Spine_004
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Spine_004/Joint_Spine_005
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001/Joint_Dick_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001/Joint_Dick_002/Joint_Dick_003
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left/Joint_Ankle_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left/Joint_Ankle_Left/Joint_Foot_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right/Joint_Ankle_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right/Joint_Ankle_Right/Joint_Foot_Right
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    - serializedVersion: 16
+      name: TPose
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 2
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: dickbuttOrientedSkeleton_Joint_Root
+        weight: 1
+      - path: Geo_Dickbutt_LOD0
+        weight: 1
+      - path: Joint_Root
+        weight: 1
+      - path: Joint_Root/Joint_Hip
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Index_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Index_Left_001/Joint_Finger_Index_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Middle_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Middle_Left_001/Joint_Finger_Middle_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Pinky_Left_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Left/Joint_Elbow_Left/Joint_Wrist_Left/Joint_Finger_Pinky_Left_001/Joint_Finger_Pinky_Left_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Index_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Index_Right_001/Joint_Finger_Index_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Middle_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Middle_Right_001/Joint_Finger_Middle_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Pinky_Right_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Shoulder_Right/Joint_Elbow_Right/Joint_Wrist_Right/Joint_Finger_Pinky_Right_001/Joint_Finger_Pinky_Right_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Spine_004
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Spine_001/Joint_Spine_002/Joint_Spine_003/Joint_Spine_004/Joint_Spine_005
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001/Joint_Dick_002
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Tail_001/Joint_Tail_002/Joint_Dick_001/Joint_Dick_002/Joint_Dick_003
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left/Joint_Ankle_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Left/Joint_Knee_Left/Joint_Ankle_Left/Joint_Foot_Left
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right/Joint_Ankle_Right
+        weight: 1
+      - path: Joint_Root/Joint_Hip/Joint_Thigh_Right/Joint_Knee_Right/Joint_Ankle_Right/Joint_Foot_Right
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human:
+    - boneName: Joint_Root
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Thigh_Left
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Thigh_Right
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Knee_Left
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Knee_Right
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Ankle_Left
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Ankle_Right
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Spine_002
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Spine_003
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Spine_004
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Shoulder_Left
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Shoulder_Right
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Elbow_Left
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Elbow_Right
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Wrist_Left
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Wrist_Right
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Finger_Index_Left_001
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Finger_Middle_Left_001
+      humanName: Left Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Finger_Pinky_Left_001
+      humanName: Left Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Finger_Index_Right_001
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Finger_Middle_Right_001
+      humanName: Right Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Finger_Pinky_Right_001
+      humanName: Right Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Joint_Spine_005
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: Anim_Dickbutt_001(Clone)
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: dickbuttOrientedSkeleton_Joint_Root
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Geo_Dickbutt_LOD0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Root
+      position: {x: 0, y: 0.22482769, z: 0.19252491}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Hip
+      position: {x: -7.888609e-33, y: 0.26025137, z: -0.15620653}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Tail_001
+      position: {x: -1.5777218e-32, y: 0, z: -1.7763568e-17}
+      rotation: {x: 0, y: 0, z: -8.004646e-34, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Tail_002
+      position: {x: -5.4526555e-17, y: -0.035273753, z: -0.24301915}
+      rotation: {x: 0, y: 0, z: 1.0448171e-32, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Dick_001
+      position: {x: 7.0126314e-17, y: 0.18362081, z: -0.1070478}
+      rotation: {x: 0, y: 0, z: -9.485206e-33, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Dick_002
+      position: {x: 1.9767385e-17, y: 0.07496708, z: -0.034744}
+      rotation: {x: 0, y: 0, z: 1.3000026e-33, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Dick_003
+      position: {x: 7.900716e-18, y: 0.07470671, z: -0.02269571}
+      rotation: {x: 0, y: 0, z: -9.1835e-41, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Spine_001
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: -9.5526125e-32, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Spine_002
+      position: {x: -1.5777218e-32, y: 0.1289699, z: 0.14538424}
+      rotation: {x: 0, y: 0, z: -6.8100883e-31, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Spine_003
+      position: {x: -3.7130844e-17, y: 0.21455897, z: 0.05393286}
+      rotation: {x: 0, y: 0, z: -4.098379e-31, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Shoulder_Left
+      position: {x: -0.25530198, y: 0.002614751, z: -0.050662253}
+      rotation: {x: -0.00000002328341, y: 0.013405788, z: 1.3024522e-10, w: 0.9999102}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Elbow_Left
+      position: {x: -0.20846398, y: 0, z: -0.0227395}
+      rotation: {x: 9.364792e-12, y: -0.025741303, z: -0.0000000011986728, w: 0.9996687}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Wrist_Left
+      position: {x: -0.163354, y: -7.105427e-17, z: 0.017271599}
+      rotation: {x: 0.000000023283064, y: -6.9812456e-16, z: 1.8189894e-10, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Index_Left_001
+      position: {x: -0.067656, y: -7.105427e-17, z: 0.0504718}
+      rotation: {x: 1.2621773e-25, y: 0, z: 4.5882675e-23, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Index_Left_002
+      position: {x: -0.055538, y: 0, z: 1.3322676e-17}
+      rotation: {x: 1.2621773e-25, y: 0, z: 4.5882675e-23, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Middle_Left_001
+      position: {x: -0.073715, y: 0, z: 2.6645352e-17}
+      rotation: {x: 1.2621773e-25, y: 0, z: 4.5882675e-23, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Middle_Left_002
+      position: {x: -0.058567, y: 0, z: 2.4424906e-17}
+      rotation: {x: 1.2621773e-25, y: 0, z: 4.5882675e-23, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Pinky_Left_001
+      position: {x: -0.073715, y: 7.105427e-17, z: -0.049749497}
+      rotation: {x: 1.2621773e-25, y: 0, z: 4.5882675e-23, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Pinky_Left_002
+      position: {x: -0.053517997, y: 0, z: 1.7763568e-17}
+      rotation: {x: 1.2621773e-25, y: 0, z: 4.5882675e-23, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Shoulder_Right
+      position: {x: 0.255302, y: 0.0026147857, z: -0.05066225}
+      rotation: {x: -7.315521e-12, y: -0.013405834, z: 5.4564775e-10, w: 0.9999102}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1}
+      transformModified: 1
+    - name: Joint_Elbow_Right
+      position: {x: 0.20846383, y: 7.105427e-17, z: -0.022739466}
+      rotation: {x: 2.8093807e-11, y: 0.025741225, z: 6.7762636e-21, w: 0.9996687}
+      scale: {x: 1.0000001, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Wrist_Right
+      position: {x: 0.16335364, y: 0, z: 0.017271563}
+      rotation: {x: -5.327042e-20, y: -9.0949456e-11, z: -5.4569677e-10, w: 1}
+      scale: {x: 1, y: 1, z: 0.99999994}
+      transformModified: 1
+    - name: Joint_Finger_Middle_Right_001
+      position: {x: 0.073715225, y: 0, z: -3.9968027e-17}
+      rotation: {x: 0, y: -1.1555577e-29, z: 3.1123024e-30, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Middle_Right_002
+      position: {x: 0.05856761, y: 0, z: 6.661338e-18}
+      rotation: {x: 0, y: -1.1555577e-29, z: 3.1123024e-30, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Pinky_Right_001
+      position: {x: 0.073715225, y: 0, z: -0.04974951}
+      rotation: {x: 0, y: -1.1555577e-29, z: 3.1123024e-30, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Pinky_Right_002
+      position: {x: 0.053518675, y: 0, z: 2.6645352e-17}
+      rotation: {x: 0, y: -1.1555577e-29, z: 3.1123024e-30, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Index_Right_001
+      position: {x: 0.06765651, y: 7.105427e-17, z: 0.050471786}
+      rotation: {x: 0, y: -1.1555577e-29, z: 3.1123024e-30, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Finger_Index_Right_002
+      position: {x: 0.05553825, y: 0, z: 3.1086245e-17}
+      rotation: {x: 0, y: -1.1555577e-29, z: 3.1123024e-30, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Spine_004
+      position: {x: -6.850198e-17, y: 0.27200922, z: 0.017586801}
+      rotation: {x: 0, y: 0, z: -3.4820813e-31, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Spine_005
+      position: {x: -6.301209e-17, y: 0.20986918, z: -0.012896989}
+      rotation: {x: 0, y: 0, z: -8.566536e-31, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Thigh_Right
+      position: {x: 0.1884511, y: -0.19233137, z: -0.036318302}
+      rotation: {x: 0.11384264, y: 0.00569213, z: -0.6088291, w: 0.7850699}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Knee_Right
+      position: {x: 0.12402665, y: 2.6645352e-17, z: 0.023191277}
+      rotation: {x: 0, y: 1.2246467e-16, z: 7.498799e-33, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Ankle_Right
+      position: {x: 0.14656846, y: 5.3290704e-17, z: -0.019179258}
+      rotation: {x: -0.11384264, y: -0.00569213, z: 0.6088291, w: 0.7850699}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Foot_Right
+      position: {x: 0.007972343, y: -1.3322676e-16, z: 0.13201857}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Thigh_Left
+      position: {x: -0.188451, y: -0.19233137, z: -0.03631846}
+      rotation: {x: 0.11384103, y: -0.005692067, z: 0.6088293, w: 0.7850699}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Knee_Left
+      position: {x: -0.124027, y: 0, z: 0.023191}
+      rotation: {x: 0, y: 7.13534e-33, z: -1.9915718e-25, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Ankle_Left
+      position: {x: -0.146568, y: 8.881784e-18, z: -0.019179}
+      rotation: {x: -0.11384104, y: 0.0056920783, z: -0.6088293, w: 0.7850699}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Joint_Foot_Left
+      position: {x: -0.0079729995, y: -2.6645352e-17, z: 0.1320188}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 3
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

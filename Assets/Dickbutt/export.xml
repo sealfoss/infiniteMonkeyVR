@@ -1,0 +1,27 @@
+<Settings>
+  <HighPolyModel DefaultMeshScale="1.000000">
+	<Mesh Visible="true" Scale="1" IgnorePerVertexColor="true" AverageNormals="UseExportedNormals" BaseTexIsTSNM="false" File="C:/Users/sealfoss/Documents/MilTrainVR/Assets/Dickbutt/sealfoss_20160706_2351_Skin_ZSphere_2.obj" BaseTex="" />
+  </HighPolyModel>
+  <LowPolyModel DefaultMeshScale="1.000000">
+	<Mesh Visible="true" File="C:/Users/sealfoss/Documents/MilTrainVR/Assets/Dickbutt/Geo_Dickbutt_LOD0.obj" AverageNormals="UseExportedNormals" MaxRayDistanceFront="0.5" MaxRayDistanceBack="0.5" UseCage="false" NormapMapType="Tangent-space" UsePerVertexColors="true" UseFresnel="false" FresnelRefractiveIndex="1.330000" ReflectHDRMult="1.000000" VectorDisplacementTS="false" VDMSwizzleX="X+" VDMSwizzleY="Y+" VDMSwizzleZ="Z+" BatchProtect="false" CastShadows="true" ReceiveShadows="true" BackfaceCull="true" NMSwizzleX="X+" NMSwizzleY="Y+" NMSwizzleZ="Z+" HighpolyNormalsOverrideTangentSpace="true" TransparencyMode="None" AlphaTestValue="127" Matte="false" Scale="1" MatchUVs="false" UOffset="false" VOffset="false" BlockersFile="" CageFile="" />
+  </LowPolyModel>
+  <GenerateMaps  GenNormals="false" Width="2048" Height="2048" EdgePadding="16" BucketSize="32" TangentSpace="true" ClosestIfFails="true" DiscardRayBackFacesHits="true" File="C:/Users/sealfoss/Documents/MilTrainVR/Assets/Dickbutt/Geo_Dickbutt_LOD0.tga" SwizzleX="X+" SwizzleY="Y+" SwizzleZ="Z+" AA="4"  GenAO="true" AORaysPerSample="256" AODistribution="Uniform" AOConeAngle="179.5" AOBias="1e-005" AOAllowPureOccluded="false" AOLimitRayDistance="false" AOAttenConstant="1" AOAttenLinear="0" AOAttenCuadratic="0" AOJitter="false" AOIgnoreBackfaceHits="false"  GenHeights="false" HeightTonemap="Interactive" HeightMinVal="-10.000000" HeightMaxVal="10.000000"  BakeHighpolyVCols="false"  GenCurv="false" CurvRaysPerSample="128" CurvBias="0.000100" CurvConeAngle="162.000000" CurvJitter="false" CurvSearchDistance="1.000000" CurvTonemap="3Col" CurvDistribution="Cosine" CurvAlgorithm="Average" CurvSmoothing="true"  GenBent="false" BentRaysPerSample="128" BentConeAngle="178.000000" BentBias="0.000010" BentTangentSpace="false" BentLimitRayDistance="true" BentJitter="false" BentDistribution="Cosine" BentSwizzleX="X+" BentSwizzleY="Y+" BentSwizzleZ="Z+"  GenPRT="false" PRTJitter="false" PRTNormalize="true" PRTRaysPerSample="128" PRTConeAngle="179.500000" PRTBias="0.080000" PRTLimitRayDistance="false" PRTThreshold="0.005000"  GenThickness="false"  GenCavity="false" CavityRaysPerSample="128" CavityJitter="false" CavitySearchRadius="0.500000" CavityContrast="1.250000" CavitySteps="4"  GenWireRays="false"  GenDirections="false"  BakeHighpolyBaseTex="false" BakeHighpolyBaseTextureDrawObjectIDIfNoTexture="false"  GenRadiosityNormals="false" RadiosityNormalsRaysPerSample="128" RadiosityNormalsDistribution="Uniform" RadiosityNormalsConeAngle="178.000000" RadiosityNormalsBias="0.001000"  >
+	<NMBackgroundColor R="128" G="128" B="255"/>
+	<BakeHighpolyBaseTextureNoTexCol R="255" G="0" B="0"/>
+	<BakeHighpolyBaseTextureBackgroundColor R="0" G="0" B="0"/>
+	<HMBackgroundColor R="0" G="0" B="0"/>
+	<AOOccludedColor R="0" G="0" B="0"/>
+	<AOUnoccludedColor R="255" G="255" B="255"/>
+	<AOBackgroundColor R="255" G="255" B="255"/>
+	<PRTBackgroundColor R="0" G="0" B="0"/>
+	<CavityBackgroundColor R="255" G="255" B="255"/>
+	<BakeHighpolyVColsBackgroundCol R="0" G="0" B="0"/>
+	<CurvBackgroundColor R="0" G="0" B="0"/>
+  </GenerateMaps>
+  <Detail Scale="0.500000" Method="4Samples"/>
+  <Viewer3D ShowGrid="true" ShowWireframe="true" ShowTangents="true" ShowNormals="false" ShowBlockers="false" >
+	<BackgroundColor R="0" G="0" B="0"/>
+	<GridColor R="180" G="180" B="220"/>
+	<CageColor R="76" G="76" B="76"/>
+  </Viewer3D>
+</Settings>
