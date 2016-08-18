@@ -108,6 +108,13 @@ public class ManipulatorController : MonoBehaviour
         actionStatus = false;
     }
 
+    Quaternion GetDelta(Transform objectOne, Transform objectTwo)
+    {
+        Vector3 delta = objectOne.position - objectTwo.position;
+        Quaternion look = Quaternion.LookRotation(delta);
+        return (look);
+    }
+
     void GuidedMove()
     {
         //just so it doesn't thrown me an error, i'm checking to make sure there's something grabbed, before initiating the guided move.  even though there already should be.
@@ -363,20 +370,45 @@ public class ManipulatorController : MonoBehaviour
         grabbedObj.rigidBody.velocity = posDelta * grabbedObj.velocityFactor * Time.fixedDeltaTime;
 
         //establish the object's appropriate rotation based on the position of the manipulator and the object's interactionPoint
-        rotDelta = this.transform.rotation * Quaternion.Inverse(interactionPoint.rotation);
-        rotDelta.ToAngleAxis(out angle, out axis);
-
-        //establish the shortest route towards appropriate rotation, clockwise or counter-clockwise
-        if (angle > 180)
+        if (!grabbedObj.secondaryManipulator)
         {
-            angle -= 360;
+            rotDelta = this.transform.rotation * Quaternion.Inverse(interactionPoint.rotation);
+            rotDelta.ToAngleAxis(out angle, out axis);
+
+            if (angle > 180)
+            {
+                angle -= 360;
+            }
+
+            //make sure the object isn't already in the appropriate rotation
+            if (angle != 0 && axis != Vector3.zero)
+            {
+                //set the object's angular velocity so that the object is rotating towards where it should be as a grabbed object
+                grabbedObj.rigidBody.angularVelocity = (Time.fixedDeltaTime * angle * axis) * grabbedObj.rotationFactor;
+            }
         }
 
-        //make sure the object isn't already in the appropriate rotation
-        if (angle != 0 && axis != Vector3.zero)
+        if (grabbedObj.secondaryManipulator)
         {
-            //set the object's angular velocity so that the object is rotating towards where it should be as a grabbed object
-            grabbedObj.rigidBody.angularVelocity = (Time.fixedDeltaTime * angle * axis) * grabbedObj.rotationFactor;
+            Transform secondaryTrans = new GameObject().transform;
+            secondaryTrans.rotation = GetDelta(grabbedObj.handleTwo.transform, this.transform);
+            secondaryTrans.transform.eulerAngles = new Vector3(secondaryTrans.eulerAngles.x, secondaryTrans.eulerAngles.y, this.transform.eulerAngles.z);
+            rotDelta = secondaryTrans.rotation * Quaternion.Inverse(interactionPoint.rotation);
+            rotDelta.ToAngleAxis(out angle, out axis);
+
+            if (angle > 180)
+            {
+                angle -= 360;
+            }
+
+            //make sure the object isn't already in the appropriate rotation
+            if (angle != 0 && axis != Vector3.zero)
+            {
+                //set the object's angular velocity so that the object is rotating towards where it should be as a grabbed object
+                grabbedObj.rigidBody.angularVelocity = (Time.fixedDeltaTime * angle * axis) * grabbedObj.rotationFactor;
+            }
+
+            Destroy(secondaryTrans.gameObject);
         }
     }
 
@@ -395,7 +427,7 @@ public class ManipulatorController : MonoBehaviour
             }
 
             //default movement method is grabbed move
-            if (!grabbedObj.guidedMove)
+            if (!grabbedObj.guidedMove && grabbedObj.secondaryManipulator != this)
             {
                 GrabbedMove();
             }
@@ -410,21 +442,48 @@ public class ManipulatorController : MonoBehaviour
 
     public void Drop()
     {
-        //if dropped object is plugged, but not locked, unplug the object before dropping
-        if (grabbedObj.plugObj && !grabbedObj.lockedStatus)
+        if (grabbedObj.secondaryManipulator)
         {
-            grabbedObj.plugObj.Unplug(grabbedObj);
+            if (this == grabbedObj.secondaryManipulator)
+            {
+                grabbedObj.velocityFactor = grabbedObj.velocityFactor / 2;
+                grabbedObj.rotationFactor = grabbedObj.rotationFactor / 2;
+                grabbedObj.handleTwo.transform.parent = grabbedObj.transform;
+                grabbedObj.handleTwo.transform.localPosition = grabbedObj.handleTwoInitPos;
+                grabbedObj.handleTwo.transform.localRotation = Quaternion.identity;
+                grabbedObj.handleTwo.transform.localRotation = grabbedObj.handleTwoInitRot;
+                grabbedObj.secondaryManipulator = null;
+                grabbedObj = null;
+            }
+
+            else
+            {
+                grabbedObj.attachedManipulator = null;
+                grabbedObj.grabbedStatus = false;
+                grabbedObj.secondaryManipulator.Grab(grabbedObj);
+                grabbedObj.secondaryManipulator = null;
+                grabbedObj = null;
+                Destroy(interactionPoint.gameObject);
+            }
         }
 
-        Destroy(interactionPoint.gameObject);
-        //tell the object it is no longer grabbed.
-        grabbedObj.grabbedStatus = false;
-        //remove the attached manipulator from the object
-        grabbedObj.attachedManipulator = null;
-        //clear out the grabbed object variable.
-        grabbedObj = null;
-        //no more object to track, so reset it
-        resetTrackerRot = true;
+        else
+        {
+            //if dropped object is plugged, but not locked, unplug the object before dropping
+            if (grabbedObj.plugObj && !grabbedObj.lockedStatus)
+            {
+                grabbedObj.plugObj.Unplug(grabbedObj);
+            }
+
+            grabbedObj.attachedManipulator = null;
+            Destroy(interactionPoint.gameObject);
+            //tell the object it is no longer grabbed.
+            grabbedObj.grabbedStatus = false;
+            //clear out the grabbed object variable.
+            grabbedObj = null;
+            //no more object to track, so reset it
+            resetTrackerRot = true;
+        }
     }
 
     public void Grab(InteractiveObjectController grabObj)
@@ -434,35 +493,74 @@ public class ManipulatorController : MonoBehaviour
             grabbedObj = grabObj;
             Unhighlight(grabbedObj);
 
-            if (grabbedObj.grabbedStatus)
+            if (grabbedObj.twoHanded)
             {
-                //if the grabbed object is already grabbed by the other manipulator, that manipulator is told to drop the object
-                grabbedObj.attachedManipulator.Drop();
-                grabbedObj.grabbedStatus = false;
+                if (grabbedObj.grabbedStatus)
+                {
+                    grabbedObj.velocityFactor = grabbedObj.velocityFactor * 2;
+                    grabbedObj.rotationFactor = grabbedObj.rotationFactor * 2;
+                    grabbedObj.handleTwo.position = this.transform.position;
+                    grabbedObj.handleTwo.transform.parent = this.transform;
+                    grabbedObj.secondaryManipulator = this;
+                }
+
+                else
+                {
+                    grabbedObj.attachedManipulator = this;
+                    //interactionPoint is used to calculate where the object should be
+                    interactionPoint = new GameObject().transform;
+
+                    //if there's an offset, the interaction point position and rotation are set to it
+                    if (grabbedObj.offsetPoint)
+                    {
+                        grabbedObj.transform.rotation = Quaternion.Lerp(this.transform.rotation, grabbedObj.offsetPoint.rotation, Time.deltaTime * 1);
+                        interactionPoint.position = grabbedObj.offsetPoint.position;
+                        interactionPoint.rotation = grabbedObj.offsetPoint.rotation;
+                    }
+
+                    //if there is no offset, interaction point and position are set to wherever the manipulator was when it grabbed the object
+                    if (!grabbedObj.offsetPoint)
+                    {
+                        interactionPoint.position = this.transform.position;
+                        interactionPoint.rotation = this.transform.rotation;
+                    }
+
+                    interactionPoint.SetParent(grabbedObj.transform, true);
+                    grabbedObj.grabbedStatus = true;
+                }
             }
 
-            grabbedObj.attachedManipulator = this;
-
-            //interactionPoint is used to calculate where the object should be
-            interactionPoint = new GameObject().transform;
-
-            //if there's an offset, the interaction point position and rotation are set to it
-            if (grabbedObj.offsetPoint)
+            if (!grabbedObj.twoHanded)
             {
-                grabbedObj.transform.rotation = Quaternion.Lerp(this.transform.rotation, grabbedObj.offsetPoint.rotation, Time.deltaTime * 1);
-                interactionPoint.position = grabbedObj.offsetPoint.position;
-                interactionPoint.rotation = grabbedObj.offsetPoint.rotation;
-            }
+                if (grabbedObj.grabbedStatus)
+                {
+                    //if the grabbed object is already grabbed by the other manipulator, that manipulator is told to drop the object
+                    grabbedObj.attachedManipulator.Drop();
+                    grabbedObj.grabbedStatus = false;
+                }
 
-            //if there is no offset, interaction point and position are set to wherever the manipulator was when it grabbed the object
-            if (!grabbedObj.offsetPoint)
-            {
-                interactionPoint.position = this.transform.position;
-                interactionPoint.rotation = this.transform.rotation;
-            }
+                grabbedObj.attachedManipulator = this;
+                //interactionPoint is used to calculate where the object should be
+                interactionPoint = new GameObject().transform;
 
-            interactionPoint.SetParent(grabbedObj.transform, true);
-            grabbedObj.grabbedStatus = true;
+                //if there's an offset, the interaction point position and rotation are set to it
+                if (grabbedObj.offsetPoint)
+                {
+                    grabbedObj.transform.rotation = Quaternion.Lerp(this.transform.rotation, grabbedObj.offsetPoint.rotation, Time.deltaTime * 1);
+                    interactionPoint.position = grabbedObj.offsetPoint.position;
+                    interactionPoint.rotation = grabbedObj.offsetPoint.rotation;
+                }
+
+                //if there is no offset, interaction point and position are set to wherever the manipulator was when it grabbed the object
+                if (!grabbedObj.offsetPoint)
+                {
+                    interactionPoint.position = this.transform.position;
+                    interactionPoint.rotation = this.transform.rotation;
+                }
+
+                interactionPoint.SetParent(grabbedObj.transform, true);
+                grabbedObj.grabbedStatus = true;
+            }
         }
     }
 

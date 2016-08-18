@@ -17,6 +17,7 @@ public class InteractiveObjectController : MonoBehaviour
     public Rigidbody rigidBody;
 
     //status booleans
+    public bool twoHanded;
     public bool guidedMove;
     public bool lockedStatus;
     public bool grabbedStatus;
@@ -51,6 +52,11 @@ public class InteractiveObjectController : MonoBehaviour
 
     //objects this object may need to interface with, depending on the cirumstances
     public ManipulatorController attachedManipulator;
+    public ManipulatorController secondaryManipulator;
+    public Transform handleOne;
+    public Transform handleTwo;
+    public Vector3 handleTwoInitPos;
+    public Quaternion handleTwoInitRot;
     public Transform offsetPoint;
     public PlugController plugObj;
     public InteractiveObjectController parentObj;
@@ -60,6 +66,9 @@ public class InteractiveObjectController : MonoBehaviour
 
     void Start()
     {
+        handleTwoInitPos = new Vector3(handleTwo.localPosition.x, handleTwo.localPosition.y, handleTwo.localPosition.z);
+        handleTwoInitRot = Quaternion.Euler(new Vector3(handleTwo.localEulerAngles.x, handleTwo.localEulerAngles.y, handleTwo.localEulerAngles.z));
+
         if (GetComponent<Rigidbody>())
         {
             rbMass = GetComponent<Rigidbody>().mass;
@@ -80,6 +89,17 @@ public class InteractiveObjectController : MonoBehaviour
 
     void FixedUpdate()
     {
+        /**reset handles
+        if (!attachedManipulator && handleOneGrabbed)
+        {
+
+        }
+
+        if (!secondaryManipulator.grabbingStatus && handleTwoGrabbed)
+        {
+            handleTwoGrabbed = false;
+        }**/
+
         //reset plug values upon unplug
         {
             if (!plugObj && rotationAmount != 0)
