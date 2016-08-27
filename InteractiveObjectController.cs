@@ -18,6 +18,7 @@ public class InteractiveObjectController : MonoBehaviour
 
     //status booleans
     public bool twoHanded;
+    public bool twoHandEnhance;
     public bool guidedMove;
     public bool lockedStatus;
     public bool grabbedStatus;
@@ -66,9 +67,6 @@ public class InteractiveObjectController : MonoBehaviour
 
     void Start()
     {
-        handleTwoInitPos = new Vector3(handleTwo.localPosition.x, handleTwo.localPosition.y, handleTwo.localPosition.z);
-        handleTwoInitRot = Quaternion.Euler(new Vector3(handleTwo.localEulerAngles.x, handleTwo.localEulerAngles.y, handleTwo.localEulerAngles.z));
-
         if (GetComponent<Rigidbody>())
         {
             rbMass = GetComponent<Rigidbody>().mass;
@@ -85,20 +83,16 @@ public class InteractiveObjectController : MonoBehaviour
         {
             maxDistance = Mathf.Infinity;
         }
+
+        if (handleTwo)
+        {
+            handleTwoInitPos = new Vector3(handleTwo.localPosition.x, handleTwo.localPosition.y, handleTwo.localPosition.z);
+            handleTwoInitRot = Quaternion.Euler(new Vector3(handleTwo.localEulerAngles.x, handleTwo.localEulerAngles.y, handleTwo.localEulerAngles.z));
+        }
     }
 
     void FixedUpdate()
     {
-        /**reset handles
-        if (!attachedManipulator && handleOneGrabbed)
-        {
-
-        }
-
-        if (!secondaryManipulator.grabbingStatus && handleTwoGrabbed)
-        {
-            handleTwoGrabbed = false;
-        }**/
 
         //reset plug values upon unplug
         {
@@ -137,6 +131,13 @@ public class InteractiveObjectController : MonoBehaviour
             magnitude = collision.relativeVelocity.magnitude;
             ushort vibration = (ushort)(magnitude * vibrationMultiplier);
             attachedManipulator.Vibrate(vibration);
+        }
+
+        if (secondaryManipulator)
+        {
+            magnitude = collision.relativeVelocity.magnitude;
+            ushort vibration = (ushort)(magnitude * vibrationMultiplier);
+            secondaryManipulator.Vibrate(vibration);
         }
     }
 }

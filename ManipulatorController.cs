@@ -43,7 +43,7 @@ public class ManipulatorController : MonoBehaviour
     }
 
     // we use fixed update because we're dealing with physics objects
-    void Update()
+    void FixedUpdate()
     {
         //if the user is grabbing, and has managed to grab an object, move that object with the manipulator.
         if (grabbingStatus && grabbedObj)
@@ -390,10 +390,9 @@ public class ManipulatorController : MonoBehaviour
 
         if (grabbedObj.secondaryManipulator)
         {
-            Transform secondaryTrans = new GameObject().transform;
-            secondaryTrans.rotation = GetDelta(grabbedObj.handleTwo.transform, this.transform);
-            secondaryTrans.transform.eulerAngles = new Vector3(secondaryTrans.eulerAngles.x, secondaryTrans.eulerAngles.y, this.transform.eulerAngles.z);
-            rotDelta = secondaryTrans.rotation * Quaternion.Inverse(interactionPoint.rotation);
+            Quaternion secondaryRot = Quaternion.LookRotation(grabbedObj.handleTwo.transform.position - this.transform.position);
+            secondaryRot = Quaternion.Euler(new Vector3(secondaryRot.eulerAngles.x, secondaryRot.eulerAngles.y, this.transform.eulerAngles.z));
+            rotDelta = secondaryRot * Quaternion.Inverse(interactionPoint.rotation);
             rotDelta.ToAngleAxis(out angle, out axis);
 
             if (angle > 180)
@@ -408,7 +407,7 @@ public class ManipulatorController : MonoBehaviour
                 grabbedObj.rigidBody.angularVelocity = (Time.fixedDeltaTime * angle * axis) * grabbedObj.rotationFactor;
             }
 
-            Destroy(secondaryTrans.gameObject);
+            //Destroy(secondaryTrans.gameObject);
         }
     }
 
@@ -446,8 +445,12 @@ public class ManipulatorController : MonoBehaviour
         {
             if (this == grabbedObj.secondaryManipulator)
             {
-                grabbedObj.velocityFactor = grabbedObj.velocityFactor / 2;
-                grabbedObj.rotationFactor = grabbedObj.rotationFactor / 2;
+                if (grabbedObj.twoHandEnhance)
+                {
+                    grabbedObj.velocityFactor = grabbedObj.velocityFactor / 2;
+                    grabbedObj.rotationFactor = grabbedObj.rotationFactor / 4;
+                }
+
                 grabbedObj.handleTwo.transform.parent = grabbedObj.transform;
                 grabbedObj.handleTwo.transform.localPosition = grabbedObj.handleTwoInitPos;
                 grabbedObj.handleTwo.transform.localRotation = Quaternion.identity;
@@ -458,12 +461,18 @@ public class ManipulatorController : MonoBehaviour
 
             else
             {
+                if (grabbedObj.twoHandEnhance)
+                {
+                    grabbedObj.velocityFactor = grabbedObj.velocityFactor / 2;
+                    grabbedObj.rotationFactor = grabbedObj.rotationFactor / 4;
+                }
+
                 grabbedObj.attachedManipulator = null;
                 grabbedObj.grabbedStatus = false;
+                Destroy(interactionPoint.gameObject);
                 grabbedObj.secondaryManipulator.Grab(grabbedObj);
                 grabbedObj.secondaryManipulator = null;
                 grabbedObj = null;
-                Destroy(interactionPoint.gameObject);
             }
         }
 
@@ -493,12 +502,17 @@ public class ManipulatorController : MonoBehaviour
             grabbedObj = grabObj;
             Unhighlight(grabbedObj);
 
+
             if (grabbedObj.twoHanded)
             {
                 if (grabbedObj.grabbedStatus)
                 {
-                    grabbedObj.velocityFactor = grabbedObj.velocityFactor * 2;
-                    grabbedObj.rotationFactor = grabbedObj.rotationFactor * 2;
+                    if (grabbedObj.twoHandEnhance)
+                    {
+                        grabbedObj.velocityFactor = grabbedObj.velocityFactor * 2;
+                        grabbedObj.rotationFactor = grabbedObj.rotationFactor * 4;
+                    }
+
                     grabbedObj.handleTwo.position = this.transform.position;
                     grabbedObj.handleTwo.transform.parent = this.transform;
                     grabbedObj.secondaryManipulator = this;
